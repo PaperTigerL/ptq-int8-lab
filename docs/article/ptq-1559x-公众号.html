@@ -1,0 +1,115 @@
+<!doctype html><html><head><meta charset="utf-8"><title>1559x PTQ</title></head><body style="max-width:760px;margin:0 auto;padding:24px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#fff;"><h1 style="font-size:24px;font-weight:bold;margin:24px 0 16px;color:#111;">1559×：把 ResNet-18 的 int8 推理压到 7.4 微秒，我们踩过的坑比数字更值钱</h1>
+<blockquote style="margin:16px 0;padding:10px 14px;background:#f7f7f7;border-left:3px solid #d9d9d9;color:#666;font-size:15px;">
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">一次从 PyTorch 到 TensorRT 的量化部署复盘。所有数字都可复现，仓库在文末。</p>
+</blockquote>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">先看结果</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">在 GTX 1650 Ti（TU117，无 Tensor Core）上，CIFAR-10 ResNet-18：</p>
+<table style="border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;">
+<thead>
+<tr>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">路径</th>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">精度</th>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">延迟</th>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">相对 ncnn CPU fp32（11.6 ms/img）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">TensorRT int8</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">87.22%</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;"><strong>0.00744 ms/img</strong></td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;"><strong>1559×</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">TensorRT fp16</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">87.18%</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">0.01068</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">1086×</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">自研 C++/CUDA int8</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">87.01%</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">0.0248</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">468×</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">7.4 微秒是什么概念：10000 张测试集前向约 74 毫秒；单卡理论吞吐约 13.4 万张/秒。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">但这不是本文的重点。重点是：<strong>这个数字一半来自“少算”，一半来自“别测错”。</strong></p>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">发现一：layer4 在乘零，乘了 8/9</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">CIFAR 的 32×32 输入，经过 7×7 stride2 + maxpool 后，到 layer4 时空间尺寸已经是 <strong>1×1</strong>。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">但网络里 layer4 的卷积还是 3×3、padding=1。对 1×1 的特征图来说，3×3 窗口里有 8 个位置落在 padding 上——<strong>每次卷积 9 个乘法里，8 个在乘零</strong>。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">做法很朴素：ONNX 层把 3×3 权重的中心 tap 切出来，换成 1×1 卷积。语义严格恒等：</p>
+<ul style="margin:12px 0;padding-left:24px;">
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">ORT 校验 200 张图：logits 最大差 <strong>2.4e-7</strong>，预测 200/200 一致</li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">TensorRT 全量 10000 张：87.21% vs 原 87.22%（差 1 张）</li>
+</ul>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">结果：int8 从 <strong>0.0189 → 0.00744 ms/img</strong>。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">更反直觉的是，这一条同时解释了旧结论“int8 比 fp16 慢”：int8 的 3×3 kernel 在 1×1 空间上还要做 NHWC reformat，原本比 fp16 慢 4–5 倍；换成 1×1 后，int8 才回到它该有的位置。</p>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">发现二：位置分解，FLOPs 再少 2.25×</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">layer3 的空间是 2×2，3×3 pad=1 同样浪费，但不能简单折成 1×1——每个输出位置看到的有效 tap 不同。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">我们换了个写法：4 个输出位置读的是<strong>同一块 2×2 输入</strong>，只是权重切片不同。于是把 3×3 卷积改写成：</p>
+<ul style="margin:12px 0;padding-left:24px;">
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;"><strong>一个</strong> 2×2 卷积，out_channels 扩 4 倍</li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">接一个 <strong>DepthToSpace(block=2, DCR)</strong> 把通道块搬回空间位置</li>
+</ul>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">FLOPs 从 2.36M 降到 1.05M/图（2.25×），<strong>kernel 数不增</strong>。语义校验 4.8e-7。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">但收益并不在 layer3：</p>
+<ul style="margin:12px 0;padding-left:24px;">
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;"><code style="background:#f2f2f2;padding:2px 5px;border-radius:3px;font-size:14px;color:#c7254e;">layer4.0/conv1</code>（3×3 stride2 @ 2×2→1×1）：<strong>0.885 → 0.076 ms，11.6×</strong></li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">layer3 三层：卷积省 0.217 ms，但 shuffle 0.139 + TRT 插的 reformat 0.119 又还回去，<strong>净亏 1%</strong></li>
+</ul>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">最终 int8 同场 A/B <strong>−20%</strong>（0.0080 → 0.0064），最好一档 0.00609。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">教训：<strong>“位置分解”能不能赚，取决于有没有 shuffle 税；stride2 / 输出 1×1 的那族才是真金。</strong></p>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">发现三：你以为在测模型，其实在测 clock</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">这台 1650 Ti 空闲时只有 <strong>1350 MHz</strong>（上限 2100）。逐批 benchmark 每批之间的 Python 间隙，会让 GPU 重新爬 clock——同一份 engine，能测出 0.0149 和 0.0214。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">更坑的是<strong>功耗墙</strong>：预热 100 次会把整卡顶到 50W / 75.5°C，之后所有实现都变成 0.041–0.042，A/B 差异完全消失。</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">我们最终固定：预热 25 次（约 300ms）+ steady 口径 + 打印 clock/温度 + 同场穿插 A/B。跨 session 的绝对值有 8–10% 漂移，<strong>只能信比值</strong>。</p>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">负结果：十个“此路不通”</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">一个诚实的部署项目，值钱的不只是跑通的路：</p>
+<table style="border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;">
+<thead>
+<tr>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">尝试</th>
+<th style="border:1px solid #e5e5e5;padding:8px;background:#f7f7f7;text-align:left;font-weight:bold;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">implicit GEMM（不落 im2col）</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">覆盖 20/20 层、int32 逐元素正确，但 0.0410 打不过 cublas 0.0248</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">跨图多流</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">1.01 / 1.10 / 1.03×，并发绝对值不如单流整批</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">int8 Winograd</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">变换域误差 1.55–2.72%，而 GEMM 上限只值 1.11×</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">block-GEMM</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">TRT 的 GEMM tactic 只有 0.75 TFLOPS（卷积 4.8），慢 41%</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">int8 权重 + fp16 激活</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">steady 0.01133 很好看，精度 <strong>9.94%</strong>，被全量精度当场抓住</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">layer2 位置分解</td>
+<td style="border:1px solid #e5e5e5;padding:8px;vertical-align:top;">上限只省 0.20 ms，却要 27 个 kernel，必亏 5 倍</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">每一条都先算了“修好它最多值多少”，再决定投不投入——这比“调一调试试”快得多。</p>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">边界：1559× 是有条件的</h2>
+<ul style="margin:12px 0;padding-left:24px;">
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">基线是本机 ncnn CPU fp32 的 11.6 ms/img，<strong>不可跨机器比较</strong></li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">int8 延迟 skip 前 1000 张校准样本；只计 forward，不计数据准备</li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">batch=512；CIFAR-10 小模型；未验证 ImageNet / Transformer / LLM</li>
+<li style="font-size:16px;line-height:1.85;margin:6px 0;color:#333;">位置分解的绝对 &lt;0.006 仍是“待发布态复测”，我们只宣布同场 −20%</li>
+</ul>
+<h2 style="font-size:19px;font-weight:bold;margin:28px 0 12px;padding-left:10px;border-left:4px solid #07c160;color:#111;">仓库</h2>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">完整代码、报告、负结果、复现脚本：</p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;"><strong>https://github.com/PaperTigerL/ptq-int8-lab</strong></p>
+<p style="font-size:16px;line-height:1.85;margin:12px 0;color:#333;">如果只能带走一句话：<strong>先算上界，再写 kernel；先统一口径，再谈倍数。</strong></p></body></html>
