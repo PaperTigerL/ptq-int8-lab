@@ -1,0 +1,8 @@
+加载训练权重 /mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_resnet50_r50aug20_ep18.pth（320 个张量，键集合干净）
+模型 ResNet-50（resnet50）· 校准集 512 张（训练集共 50000）· 只导出，不评测
+激活校准完成：53 层（PTQC 写原始 minmax）
+  [top4_all] results/mixed_precision/resnet50_top4_all/resnet50_top4_all.ptq2.bin （53 conv / 16 block / 94.0 MB，自检 max|diff|=0）
+           PTQC 53 层 / 432 B；W8 层 4/53；混合精度包自检 PASS
+全部候选导出完成：1 个，40.7 s → results/mixed_precision/resnet50_top4_all
+top4_all           PTQ2 53 conv / 94.0 MB · PTQC 432 B · W8 4/53 层
+  包自检：PASS（32 项，失败 0） · manifest results/mixed_precision/resnet50_top4_all/manifest.json

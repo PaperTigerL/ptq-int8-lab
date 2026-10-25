@@ -1,0 +1,12 @@
+# 07-tensorrt-deploy
+
+# 中间产物：ONNX / engine plan，几百 MB，全都能从脚本重新生成
+work/
+*.onnx
+*.trt
+
+# 扫描脚本可能存在中间路径下的产物
+results/*.raw
+
+# TRT timing cache（构建期中间产物，python 绑定读不回，见 push-20261025/README §4）
+*.cache

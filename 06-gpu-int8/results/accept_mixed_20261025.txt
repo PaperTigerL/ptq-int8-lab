@@ -1,0 +1,137 @@
+==== nvidia-smi ====
+1920 MHz, 902 MiB
+
+########## A/B (pinned input, batch=512) ##########
+relink: build/gpu_int8
+
+==== probe_overhead ====
+H2D pageable 6.29MB                           3.270 ms/次      1.9 GB/s
+H2D pinned   6.29MB                           1.056 ms/次      6.0 GB/s
+add_relu 512x64x64                            0.166 ms/次    151.8 GB/s
+add_relu 512x128x4x4                          0.081 ms/次    155.5 GB/s
+add_relu 512x256x2x2                          0.042 ms/次    149.3 GB/s
+add_relu 512x512x1                            0.022 ms/次    145.9 GB/s
+add_relu 8 次合计（每 stage 2 次）     0.621 ms/次
+maxpool 512x64x8x8 → 3x3                    0.073 ms/次    230.3 GB/s
+maxpool 0.073 ms
+
+==== alternating A/B (batch=512, limit=512, 100 预热 + 60 取最快) ====
+R1 cublas  | 稳态 0.0255 ms/img | 精度 86.52% | clock 1350 MHz | 
+R1 mixed   | 稳态 0.0246 ms/img | 精度 86.52% | clock 1350 MHz | 按层混合：表来源 embedded，4 implicit / 16 cublas（表内 20 条 / 共 20 层）
+R2 cublas  | 稳态 0.0257 ms/img | 精度 86.52% | clock 1350 MHz | 
+R2 mixed   | 稳态 0.0248 ms/img | 精度 86.52% | clock 1350 MHz | 按层混合：表来源 embedded，4 implicit / 16 cublas（表内 20 条 / 共 20 层）
+R3 cublas  | 稳态 0.0267 ms/img | 精度 86.52% | clock 1920 MHz | 
+R3 mixed   | 稳态 0.0248 ms/img | 精度 86.52% | clock 1350 MHz | 按层混合：表来源 embedded，4 implicit / 16 cublas（表内 20 条 / 共 20 层）
+
+==== clock final: 1350 MHz ====
+
+########## VERIFY ##########
+int8_kernels.cu(414): warning #177-D: variable "WARPS" was declared but never referenced
+      constexpr int WARPS = 8;
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+════ 探针：数值正确性（从最小到完整）════
+
+──── ./build/probe_gemm ────
+M=64 K=128 N=32，行主序 C = A@B
+from_blob（无 device，默认 CPU）         bad=  468/2048 x
+from_blob().to(kCUDA).contiguous()             bad=    0/2048 OK
+wrap_i8_cuda（device_ptr + 显式 device）   bad=    0/2048 OK
+
+结论：GEMM 层用 at::_int_mm，不要自己调 cublasGemmEx。
+      裸指针调用会绕过 libtorch 的设备/布局规范化，输出垃圾值且不报错。
+
+──── ./build/probe_im2col ────
+N=2 C=4 H=8 W=8 k=3x3 s=2 p=1 → OH=4 OW=4 K=36 Kpad=40
+im2col 映射：不一致 0 / 1280 ✓（索引映射正确）
+
+──── ./build/probe_im2col_quant ────
+lo=-1.300 hi=2.700 → scale=0.021260 zp=0 qmax=127
+N=3 C=5 H=9 W=7 k=3x3 s=(2,1) p=(1,2) → OH=5 OW=9 K=45 Kpad=48
+码字范围检查：lo→-61  hi→127  （clamp 到 [-(qmax+1), qmax] = [-128, 127]）
+im2col+量化：不一致 0 / 6480 ✓
+GPU 码字范围 [-61, 127]（clamp 区间 [-128, 127]）
+
+──── ./build/probe_zp ────
+输入恒为 0.5 | scale=0.0259842519 zp=0 | sync=no error
+期望码字 = round(0.5/scale) = 19
+gpu col[0..7] = 0 0 0 0 19 19 0 19
+
+════ 单层数值校验（vs CPU 参考实现）════
+
+──── ./build/check_layer resnet18_folded.bin calib_minmax.bin 2 --n 4 --quiet ────
+层 2: cout=64 cin=64 k=3x3 s=1 p=1 | K=576 Kpad=576 OH=32 OW=32
+
+[CPU 参考]
+
+[GPU int8]
+implicit GEMM: launched | int32 mismatch 0 / 262144 | max|diff| 0 | first -1
+im2col 不一致 0 / 2359296
+int32 不一致 0 / 262144
+元素 262144 | max|diff| = 9.53674e-07 | 超 1e-3 的 0 个 (0.00%)
+单层一致 ✓
+
+──── ./build/check_layer resnet18_folded.bin calib_minmax.bin 9 --n 4 --quiet ────
+层 9: cout=128 cin=128 k=3x3 s=1 p=1 | K=1152 Kpad=1152 OH=32 OW=32
+
+[CPU 参考]
+
+[GPU int8]
+implicit GEMM: launched | int32 mismatch 0 / 524288 | max|diff| 0 | first -1
+im2col 不一致 0 / 4718592
+int32 不一致 0 / 524288
+元素 524288 | max|diff| = 9.53674e-07 | 超 1e-3 的 0 个 (0.00%)
+单层一致 ✓
+
+════ 全量评测（10000 张）════
+--- W8A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 87.01%（8701/10000）
+全量前向 0.292 s（含数据准备 0.025 s，含一次性开销）
+稳态 0.0244 ms/img（batch=500，预热后重复 60 次取最快）
+加速 476×（vs ncnn CPU fp32 11.6 ms/img）
+--- W6A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 86.90%（8690/10000）
+全量前向 0.301 s（含数据准备 0.033 s，含一次性开销）
+稳态 0.0241 ms/img（batch=500，预热后重复 60 次取最快）
+加速 481×（vs ncnn CPU fp32 11.6 ms/img）
+--- W4A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 85.41%（8541/10000）
+全量前向 0.285 s（含数据准备 0.033 s，含一次性开销）
+稳态 0.0242 ms/img（batch=500，预热后重复 60 次取最快）
+加速 479×（vs ncnn CPU fp32 11.6 ms/img）
+
+════ 全部探针通过 ════
+
+int8_kernels.cu(414): warning #177-D: variable "WARPS" was declared but never referenced
+      constexpr int WARPS = 8;
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+════ 1/3  numpy 参考实现（1000 张，纯 numpy 逐层算）════
+参考实现精度 87.30%（873/1000）
+已写出 ../results/cmp/ref1000.bin（(1000, 10)）
+
+════ 2/3  GPU 引擎（1000 张，batch=512）════
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 87.20%（872/1000）
+稳态 0.0267 ms/img（batch=512，预热后重复 60 次取最快）
+加速 434×（vs ncnn CPU fp32 11.6 ms/img）
+已导出 logits → ../results/cmp/gpu1000.bin（1000 × 10）
+
+════ 3/3  比对 ════
+样本 1000 × 10 类 = 10000 个 logits
+max|diff| = 3.35436
+超容差(1e-03)的 9873 个 (98.7300%)
+argmax 一致：943/1000 (94.3000%)
+结论：端到端通过 ✓（判据 argmax ≥ 90%，实测 94.3%；max|diff| 仅诊断）
+  最大偏差位置 [370][4]：gpu=0.370963 ref=3.725327（诊断信息，不影响判定）
+
+==== nvidia-smi ====
+1350 MHz
+rc=True

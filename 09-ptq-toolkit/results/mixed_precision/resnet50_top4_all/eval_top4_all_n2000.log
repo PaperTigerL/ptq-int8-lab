@@ -1,0 +1,10 @@
+模型 ResNet-50（resnet50）· 训练权重 320 个张量 · 测试集 2000 张 · device=cpu
+协议：训练权重 → BN 折叠 → 同一 test loader → fp32 基线 → 逐候选 Conv2d QDQ（fc fp32）
+fp32 基线 92.05%（50.9 s）
+  [top4_all        ]  91.55%  掉点  0.50 pp  PASS（49.3 s）
+评测结果 → results/mixed_precision/resnet50_top4_all/eval_resnet50_n2000.json（112.1 s）
+候选                    fp32      量化      掉点  判定
+----------------------------------------------------
+top4_all             92.05   91.55    0.50  PASS
+
+resnet50：1/1 个候选 <= 3.0 pp · 结果 results/mixed_precision/resnet50_top4_all/eval_resnet50_n2000.json

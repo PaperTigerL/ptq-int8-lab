@@ -1,0 +1,11 @@
+
+# ---- logits 比对的中间产物 ----
+# ref_e2e.py / gpu_int8 --dump 产出的 logits 是**可重算的中间物**，
+# 不进仓库（每张 400 KB，六份就2.4 MB）。
+# 要复现比对：bash cpp/verify_e2e.sh 会重新生成。
+results/cmp/
+
+# ---- 工作区：一次性探针与回滚备份（2026-10-25 清点）----
+# 0492e0b 之后留下的临时工具（_attr.sh / _count.py / _patch.py / _sass_analyze.sh）、
+# int8_kernels.cu 的回滚备份、W4A8 换机拷机日志 —— 保留在磁盘，不进版本库。
+work/

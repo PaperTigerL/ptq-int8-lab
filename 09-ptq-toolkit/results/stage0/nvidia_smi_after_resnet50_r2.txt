@@ -1,0 +1,57 @@
+== after @ 2026-10-22T20:23:13+08:00 ==
+Thu Oct 22 20:23:13 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.71.08              KMD Version: 616.92        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1650 Ti     On  |   00000000:01:00.0 Off |                  N/A |
+| N/A   55C    P0             13W /   50W |    1196MiB /   4096MiB |      7%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+== after compute apps ==
+== after free -m ==
+               total        used        free      shared  buff/cache   available
+Mem:           15929         715       14736           3         743       15213
+Swap:           4096           0        4096
+== after dmesg tail ==
+[    3.177095] Failed to connect to bus: No such file or directory
+[    3.431953] Failed to connect to bus: No such file or directory
+[    3.562201] systemd-journald[55]: Collecting audit messages is disabled.
+[    3.644220] systemd-journald[55]: Received client request to flush runtime journal.
+[    3.645759] systemd-journald[55]: File /var/log/journal/00e028570a0d499592866a351cba1d2a/system.journal corrupted or uncleanly shut down, renaming and replacing.
+[    6.242929] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    6.272561] systemd-journald[55]: File /var/log/journal/00e028570a0d499592866a351cba1d2a/user-1000.journal corrupted or uncleanly shut down, renaming and replacing.
+[    6.314047] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.314517] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.314952] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.318049] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.318842] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.719531] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    6.751321] WSL (182) ERROR: CheckConnection: getaddrinfo() failed: -5
+[    6.760720] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.761860] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.762154] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[    6.806904] WSL (182) ERROR: CheckConnection: getaddrinfo() failed: -5
+[    6.812725] WSL (182) ERROR: CheckConnection: connect() failed: 101
+[   49.089785] hv_balloon: Max. dynamic memory size: 16316 MB
+[  947.181304] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[  947.235343] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.235793] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.236176] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.236551] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.236930] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.530517] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[  947.559011] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.559707] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22
+[  947.560426] misc dxg: dxgk: dxgkio_escape: Ioctl failed: -22

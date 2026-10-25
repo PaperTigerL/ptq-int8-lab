@@ -1,0 +1,52 @@
+
+### A：复测**已有** engine（不重建）—— 如果还是 0.0138，说明不是机器状态
+GATE_UTIL=6
+[gpu] 6 %, 900 MiB
+in strides: (3072, 1024, 32, 1) shape: (512, 3, 32, 32)
+  dataset round 1: 0.0126 ms/img  精度 87.18%
+  dataset round 2: 0.0128 ms/img  精度 87.18%
+  dataset round 3: 0.0116 ms/img  精度 87.18%
+  dataset round 4: 0.0130 ms/img  精度 87.18%
+  dataset round 5: 0.0122 ms/img  精度 87.18%
+  steady clocks: {'sm': '1905', 'sm_max': '2100', 'temp': '69.50', 'power': '38.16'} -> {'sm': '1785', 'sm_max': '2100', 'temp': '73.80', 'power': '49.71'}
+  steady: 0.01415 ms/img (min 0.01378)
+== fp16_cached_rerun b512 opt5 default ws1.0: dataset 0.0116/0.0126 (min/median) ms/img = 999x/920x, acc 87.18%, build 0s, plan 9.9MB
+JSON {"tag": "fp16_cached_rerun", "onnx": "results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx", "batch": 512, "opt": 5, "tactic": "default", "workspace_gb": 1.0, "aux": null, "tiling": null, "static": true, "direct_io": true, "avg_timing": null, "build_s": 0.0, "plan_mb": 9.9, "engine": "resnet18_cifar10_fp16_c1x1__b512_o5_default_w1.0_aNone_xNone_d1_1c2d4767fb.trt", "gpu_util_before": 15, "gpu_mem_before": 937, "dtype": "DataType.HALF", "out_dtype": "DataType.HALF", "clocks": [{"sm": "1860", "sm_max": "2100", "temp": "70.30", "power": "28.38"}], "acc": 87.18, "dataset_ms": [0.01261, 0.0128, 0.01161, 0.01304, 0.01223], "dataset_median": 0.01261, "dataset_min": 0.01161, "dataset_max": 0.01304, "clocks_steady": [{"sm": "1905", "sm_max": "2100", "temp": "69.50", "power": "38.16"}, {"sm": "1785", "sm_max": "2100", "temp": "73.80", "power": "49.71"}], "steady_ms_batch": [7.2471, 7.3592, 7.2932, 7.0537, 7.0836], "steady_median": 0.01415, "steady_min": 0.01378, "wall_s": 19.7, "gpu_util_after": 100, "x_median": 920}
+
+### B：强制重建 engine 1（--rebuild）
+GATE_UTIL=12
+[gpu] 12 %, 900 MiB
+DIRECT_IO -> True
+in strides: (3072, 1024, 32, 1) shape: (512, 3, 32, 32)
+  dataset round 1: 0.0112 ms/img  精度 87.18%
+  dataset round 2: 0.0114 ms/img  精度 87.18%
+  dataset round 3: 0.0109 ms/img  精度 87.18%
+  dataset round 4: 0.0110 ms/img  精度 87.18%
+  dataset round 5: 0.0111 ms/img  精度 87.18%
+  steady clocks: {'sm': '1920', 'sm_max': '2100', 'temp': '72.80', 'power': '34.85'} -> {'sm': '1770', 'sm_max': '2100', 'temp': '74.40', 'power': '49.03'}
+  steady: 0.01256 ms/img (min 0.01251)
+== fp16_rebuild_1 b512 opt5 default ws1.0: dataset 0.0109/0.0111 (min/median) ms/img = 1064x/1047x, acc 87.18%, build 100s, plan 9.9MB
+JSON {"tag": "fp16_rebuild_1", "onnx": "results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx", "batch": 512, "opt": 5, "tactic": "default", "workspace_gb": 1.0, "aux": null, "tiling": null, "static": true, "direct_io": true, "avg_timing": null, "build_s": 100.1, "plan_mb": 9.9, "engine": "resnet18_cifar10_fp16_c1x1__b512_o5_default_w1.0_aNone_xNone_d1_1c2d4767fb.trt", "gpu_util_before": 14, "gpu_mem_before": 891, "dtype": "DataType.HALF", "out_dtype": "DataType.HALF", "clocks": [{"sm": "1845", "sm_max": "2100", "temp": "75.60", "power": "49.95"}], "acc": 87.18, "dataset_ms": [0.01119, 0.01137, 0.0109, 0.011, 0.01108], "dataset_median": 0.01108, "dataset_min": 0.0109, "dataset_max": 0.01137, "clocks_steady": [{"sm": "1920", "sm_max": "2100", "temp": "72.80", "power": "34.85"}, {"sm": "1770", "sm_max": "2100", "temp": "74.40", "power": "49.03"}], "steady_ms_batch": [6.4231, 6.465, 6.4393, 6.404, 6.4283], "steady_median": 0.01256, "steady_min": 0.01251, "wall_s": 114.7, "gpu_util_after": 96, "x_median": 1047}
+
+### C：强制重建 engine 2（--rebuild）
+GATE_UTIL=7
+[gpu] 7 %, 1394 MiB
+DIRECT_IO -> True
+in strides: (3072, 1024, 32, 1) shape: (512, 3, 32, 32)
+  dataset round 1: 0.0107 ms/img  精度 87.18%
+  dataset round 2: 0.0108 ms/img  精度 87.18%
+  dataset round 3: 0.0113 ms/img  精度 87.18%
+  dataset round 4: 0.0111 ms/img  精度 87.18%
+  dataset round 5: 0.0115 ms/img  精度 87.18%
+  steady clocks: {'sm': '1845', 'sm_max': '2100', 'temp': '72.90', 'power': '35.40'} -> {'sm': '1770', 'sm_max': '2100', 'temp': '74.50', 'power': '38.02'}
+  steady: 0.01253 ms/img (min 0.01249)
+== fp16_rebuild_2 b512 opt5 default ws1.0: dataset 0.0107/0.0111 (min/median) ms/img = 1081x/1043x, acc 87.18%, build 80s, plan 9.9MB
+JSON {"tag": "fp16_rebuild_2", "onnx": "results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx", "batch": 512, "opt": 5, "tactic": "default", "workspace_gb": 1.0, "aux": null, "tiling": null, "static": true, "direct_io": true, "avg_timing": null, "build_s": 80.1, "plan_mb": 9.9, "engine": "resnet18_cifar10_fp16_c1x1__b512_o5_default_w1.0_aNone_xNone_d1_1c2d4767fb.trt", "gpu_util_before": 5, "gpu_mem_before": 860, "dtype": "DataType.HALF", "out_dtype": "DataType.HALF", "clocks": [{"sm": "1770", "sm_max": "2100", "temp": "72.90", "power": "48.73"}], "acc": 87.18, "dataset_ms": [0.01073, 0.01085, 0.01129, 0.01112, 0.01148], "dataset_median": 0.01112, "dataset_min": 0.01073, "dataset_max": 0.01148, "clocks_steady": [{"sm": "1845", "sm_max": "2100", "temp": "72.90", "power": "35.40"}, {"sm": "1770", "sm_max": "2100", "temp": "74.50", "power": "38.02"}], "steady_ms_batch": [6.4096, 6.4453, 6.4187, 6.3934, 6.4174], "steady_median": 0.01253, "steady_min": 0.01249, "wall_s": 91.7, "gpu_util_after": 100, "x_median": 1043}
+
+### 汇总：同一张图、同一配置，三次 engine 的结果
+fp16_cached_rerun  dataset 0.01261 (min 0.01161, spread 11.3%)  steady 0.01415  acc 87.18%  build 0s
+fp16_rebuild_1     dataset 0.01108 (min 0.01090, spread 4.2%)  steady 0.01256  acc 87.18%  build 100s
+fp16_rebuild_2     dataset 0.01112 (min 0.01073, spread 6.7%)  steady 0.01253  acc 87.18%  build 80s
+1cb6e67f62bcecc62ecb98d5c4daf2a62b641d3e70c9e4eb06d31e87c4fd7e42  results/push-20261025/repro/engines/fp16_first_1c2d4767fb.trt
+986b91abb8c9b060c25f9d0599469e688c7a8f16a2f5016674633ed3bf915527  results/push-20261025/repro/engines/fp16_rebuild_1.trt
+929c697657d401c52e3a02de31301ba193f3508134e255fdfefd6891b7f0a136  results/push-20261025/repro/engines/fp16_rebuild_2.trt

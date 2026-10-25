@@ -1,0 +1,28 @@
+# 编译产物与诊断日志
+ncnn_cuda_eval
+ncnn_cuda_eval_log
+ncnn_cuda_cmp
+probe_gpu
+results_layers.log
+
+# ---- 评测器二进制（build.sh 的 EVAL_BIN 默认落在本目录）----
+# 全部由 *.cpp 编译得到、可重建，源码在版本库里，二进制不进库。
+/ncnn_cuda_eval*
+/ncnn_cuda_dump_logits*
+/ncnn_cuda_profile_layers*
+/ncnn_cuda_ab_harness
+/ncnn_cuda_graph_eval
+/ncnn_cuda_scale_test
+/ncnn_cpu_eval
+# 源码永远看得见（后面的规则覆盖前面）
+!/ncnn_cuda_*.cpp
+
+# ---- 一次性 A/B 会话的原始产物 ----
+# 2026-10-23~25 那轮 h0xx 扫描的日志/转储已挪到 work/（保留在磁盘，不进库），
+# 脚本归档在 experiments/20261025/。每次重跑都会新建时间戳目录，故整段忽略。
+# results-h021 是已入库的 h021 验收证据，继续跟踪；只忽略其中 nvidia-smi 快照。
+work/
+/results-h0*/
+!/results-h021/
+/results-h021/nvidia_smi_*.txt
+/results/verify_ncnn_cuda*

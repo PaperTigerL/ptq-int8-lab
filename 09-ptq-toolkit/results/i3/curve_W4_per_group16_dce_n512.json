@@ -1,0 +1,511 @@
+{
+  "mode": "curve",
+  "model": "mobilenet_v2",
+  "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth",
+  "eval_n": 512,
+  "w4_config": "W4_per_group16",
+  "order": "dce",
+  "w8_acc": 91.7969,
+  "marginal_source": "results/i3/marginal_W4_per_group16_n512.json",
+  "rows": [
+    {
+      "n_w8": 0,
+      "acc": 87.8906,
+      "drop": 3.9062,
+      "ce": 0.456342,
+      "w8_layers": []
+    },
+    {
+      "n_w8": 1,
+      "acc": 89.2578,
+      "drop": 2.5391,
+      "ce": 0.403415,
+      "w8_layers": [
+        "features.1.conv.0.0"
+      ]
+    },
+    {
+      "n_w8": 2,
+      "acc": 89.0625,
+      "drop": 2.7344,
+      "ce": 0.398251,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1"
+      ]
+    },
+    {
+      "n_w8": 3,
+      "acc": 88.6719,
+      "drop": 3.125,
+      "ce": 0.38893,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 4,
+      "acc": 90.0391,
+      "drop": 1.7578,
+      "ce": 0.381473,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0"
+      ]
+    },
+    {
+      "n_w8": 5,
+      "acc": 89.8438,
+      "drop": 1.9531,
+      "ce": 0.377211,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2"
+      ]
+    },
+    {
+      "n_w8": 6,
+      "acc": 89.2578,
+      "drop": 2.5391,
+      "ce": 0.379823,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 7,
+      "acc": 89.4531,
+      "drop": 2.3438,
+      "ce": 0.379925,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0"
+      ]
+    },
+    {
+      "n_w8": 8,
+      "acc": 89.6484,
+      "drop": 2.1484,
+      "ce": 0.378806,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 9,
+      "acc": 90.4297,
+      "drop": 1.3672,
+      "ce": 0.366547,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 10,
+      "acc": 90.8203,
+      "drop": 0.9766,
+      "ce": 0.36618,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0"
+      ]
+    },
+    {
+      "n_w8": 11,
+      "acc": 91.0156,
+      "drop": 0.7812,
+      "ce": 0.361585,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 12,
+      "acc": 90.4297,
+      "drop": 1.3672,
+      "ce": 0.360391,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 13,
+      "acc": 90.625,
+      "drop": 1.1719,
+      "ce": 0.361527,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2"
+      ]
+    },
+    {
+      "n_w8": 14,
+      "acc": 90.8203,
+      "drop": 0.9766,
+      "ce": 0.358224,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 15,
+      "acc": 91.2109,
+      "drop": 0.5859,
+      "ce": 0.355337,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 16,
+      "acc": 91.0156,
+      "drop": 0.7812,
+      "ce": 0.353284,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2"
+      ]
+    },
+    {
+      "n_w8": 17,
+      "acc": 90.8203,
+      "drop": 0.9766,
+      "ce": 0.34864,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2"
+      ]
+    },
+    {
+      "n_w8": 18,
+      "acc": 91.0156,
+      "drop": 0.7812,
+      "ce": 0.347564,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2"
+      ]
+    },
+    {
+      "n_w8": 19,
+      "acc": 90.8203,
+      "drop": 0.9766,
+      "ce": 0.34064,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0"
+      ]
+    },
+    {
+      "n_w8": 20,
+      "acc": 90.8203,
+      "drop": 0.9766,
+      "ce": 0.339032,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0",
+        "features.17.conv.0.0"
+      ]
+    },
+    {
+      "n_w8": 21,
+      "acc": 91.4062,
+      "drop": 0.3906,
+      "ce": 0.338512,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0",
+        "features.17.conv.0.0",
+        "features.9.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 22,
+      "acc": 91.2109,
+      "drop": 0.5859,
+      "ce": 0.340249,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0",
+        "features.17.conv.0.0",
+        "features.9.conv.1.0",
+        "features.10.conv.1.0"
+      ]
+    },
+    {
+      "n_w8": 23,
+      "acc": 91.2109,
+      "drop": 0.5859,
+      "ce": 0.339184,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0",
+        "features.17.conv.0.0",
+        "features.9.conv.1.0",
+        "features.10.conv.1.0",
+        "features.10.conv.2"
+      ]
+    },
+    {
+      "n_w8": 24,
+      "acc": 91.4062,
+      "drop": 0.3906,
+      "ce": 0.335484,
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.1.0",
+        "features.0.0",
+        "features.17.conv.2",
+        "features.4.conv.1.0",
+        "features.7.conv.0.0",
+        "features.12.conv.1.0",
+        "features.3.conv.1.0",
+        "features.3.conv.0.0",
+        "features.11.conv.1.0",
+        "features.7.conv.1.0",
+        "features.11.conv.2",
+        "features.5.conv.1.0",
+        "features.13.conv.1.0",
+        "features.6.conv.2",
+        "features.2.conv.2",
+        "features.16.conv.2",
+        "features.4.conv.0.0",
+        "features.17.conv.0.0",
+        "features.9.conv.1.0",
+        "features.10.conv.1.0",
+        "features.10.conv.2",
+        "features.11.conv.0.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# 导出的权重与量化参数：可由 `ptq build` 完全重建，不进仓库。
+#   *.bin             各 0.7–94 MB，六组合共 442 MB
+#   quant_config_*.json  每层一个 per-channel scale + 激活 scale，
+#                       单个 5000–27000 行、六组合共 7 万行 —— 纯中间产物
+results/*.bin
+results/quant_config_*.json
+
+# ⭐ 但 build_<model>_w<bits>.json / bench.json / report.md / report.json
+#   必须入库：报告里每个数字都要溯源到 build_<model>_w<bits>.json
+#   （M2 验收判据第 9 条）。ignore 掉等于让溯源断链。
+#   这几个文件很小（每个约 450 字节）。
+
+__pycache__/
+*.pyc
+results/m2_accept/*.bin
+results/m2_accept/quant_config_*.json
+
+# W4 候选 / 混合精度包：权重与 per-group 量化参数体积大（94 MB / 24 MB），
+# 可由 `ptq export` 重建；build_*.json、*.ptqc、manifest 必须入库做溯源。
+results/w4_candidates/*.ptq2.bin
+results/w4_candidates/quant_config_*.json
+results/mixed_precision/*/*.ptq2.bin
+results/mixed_precision/*/quant_config_*.json

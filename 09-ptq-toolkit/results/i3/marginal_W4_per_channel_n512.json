@@ -1,0 +1,427 @@
+{
+  "mode": "marginal",
+  "model": "mobilenet_v2",
+  "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth",
+  "eval_n": 512,
+  "w4_config": "W4_per_channel",
+  "w8_acc": 91.7969,
+  "protocol": "all convs W8 per-channel, one layer at W4_per_channel; damage = acc(all W8) - acc(plan)",
+  "rows": [
+    {
+      "name": "features.16.conv.0.0",
+      "acc": 92.1875,
+      "damage": -0.3906,
+      "ce": 0.323689,
+      "dce": -0.000515,
+      "rank": 1
+    },
+    {
+      "name": "features.7.conv.2",
+      "acc": 92.1875,
+      "damage": -0.3906,
+      "ce": 0.325231,
+      "dce": 0.001027,
+      "rank": 2
+    },
+    {
+      "name": "features.11.conv.0.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.323574,
+      "dce": -0.00063,
+      "rank": 3
+    },
+    {
+      "name": "features.10.conv.0.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.323653,
+      "dce": -0.000551,
+      "rank": 4
+    },
+    {
+      "name": "features.14.conv.1.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.323798,
+      "dce": -0.000406,
+      "rank": 5
+    },
+    {
+      "name": "features.15.conv.2",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.324211,
+      "dce": 7e-06,
+      "rank": 6
+    },
+    {
+      "name": "features.15.conv.0.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.324778,
+      "dce": 0.000574,
+      "rank": 7
+    },
+    {
+      "name": "features.2.conv.0.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.324948,
+      "dce": 0.000744,
+      "rank": 8
+    },
+    {
+      "name": "features.8.conv.2",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.325675,
+      "dce": 0.001471,
+      "rank": 9
+    },
+    {
+      "name": "features.6.conv.2",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.32572,
+      "dce": 0.001516,
+      "rank": 10
+    },
+    {
+      "name": "features.5.conv.1.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.326584,
+      "dce": 0.002379,
+      "rank": 11
+    },
+    {
+      "name": "features.11.conv.2",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.327614,
+      "dce": 0.00341,
+      "rank": 12
+    },
+    {
+      "name": "features.12.conv.0.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.328615,
+      "dce": 0.004411,
+      "rank": 13
+    },
+    {
+      "name": "features.2.conv.1.0",
+      "acc": 91.9922,
+      "damage": -0.1953,
+      "ce": 0.332614,
+      "dce": 0.00841,
+      "rank": 14
+    },
+    {
+      "name": "features.4.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.321993,
+      "dce": -0.002212,
+      "rank": 15
+    },
+    {
+      "name": "features.9.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.322979,
+      "dce": -0.001225,
+      "rank": 16
+    },
+    {
+      "name": "features.16.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.324165,
+      "dce": -3.9e-05,
+      "rank": 17
+    },
+    {
+      "name": "features.17.conv.2",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.324316,
+      "dce": 0.000112,
+      "rank": 18
+    },
+    {
+      "name": "features.9.conv.2",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.324341,
+      "dce": 0.000137,
+      "rank": 19
+    },
+    {
+      "name": "features.15.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.324567,
+      "dce": 0.000363,
+      "rank": 20
+    },
+    {
+      "name": "features.6.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.324947,
+      "dce": 0.000742,
+      "rank": 21
+    },
+    {
+      "name": "features.18.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.32517,
+      "dce": 0.000966,
+      "rank": 22
+    },
+    {
+      "name": "features.13.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.325247,
+      "dce": 0.001043,
+      "rank": 23
+    },
+    {
+      "name": "features.10.conv.2",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.325471,
+      "dce": 0.001267,
+      "rank": 24
+    },
+    {
+      "name": "features.17.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.325667,
+      "dce": 0.001463,
+      "rank": 25
+    },
+    {
+      "name": "features.5.conv.0.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.326246,
+      "dce": 0.002042,
+      "rank": 26
+    },
+    {
+      "name": "features.13.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.326532,
+      "dce": 0.002328,
+      "rank": 27
+    },
+    {
+      "name": "features.7.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.326869,
+      "dce": 0.002665,
+      "rank": 28
+    },
+    {
+      "name": "features.11.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.327004,
+      "dce": 0.0028,
+      "rank": 29
+    },
+    {
+      "name": "features.14.conv.2",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.327134,
+      "dce": 0.00293,
+      "rank": 30
+    },
+    {
+      "name": "features.12.conv.1.0",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.327263,
+      "dce": 0.003058,
+      "rank": 31
+    },
+    {
+      "name": "features.13.conv.2",
+      "acc": 91.7969,
+      "damage": 0.0,
+      "ce": 0.329106,
+      "dce": 0.004902,
+      "rank": 32
+    },
+    {
+      "name": "features.2.conv.2",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.322075,
+      "dce": -0.002129,
+      "rank": 33
+    },
+    {
+      "name": "features.6.conv.1.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.322516,
+      "dce": -0.001688,
+      "rank": 34
+    },
+    {
+      "name": "features.16.conv.2",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.323359,
+      "dce": -0.000845,
+      "rank": 35
+    },
+    {
+      "name": "features.8.conv.1.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.324062,
+      "dce": -0.000142,
+      "rank": 36
+    },
+    {
+      "name": "features.17.conv.1.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.324895,
+      "dce": 0.00069,
+      "rank": 37
+    },
+    {
+      "name": "features.10.conv.1.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.32539,
+      "dce": 0.001186,
+      "rank": 38
+    },
+    {
+      "name": "features.9.conv.1.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.325411,
+      "dce": 0.001207,
+      "rank": 39
+    },
+    {
+      "name": "features.5.conv.2",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.326068,
+      "dce": 0.001863,
+      "rank": 40
+    },
+    {
+      "name": "features.14.conv.0.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.32668,
+      "dce": 0.002475,
+      "rank": 41
+    },
+    {
+      "name": "features.3.conv.0.0",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.326769,
+      "dce": 0.002564,
+      "rank": 42
+    },
+    {
+      "name": "features.12.conv.2",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.328749,
+      "dce": 0.004545,
+      "rank": 43
+    },
+    {
+      "name": "features.4.conv.2",
+      "acc": 91.6016,
+      "damage": 0.1953,
+      "ce": 0.33853,
+      "dce": 0.014326,
+      "rank": 44
+    },
+    {
+      "name": "features.8.conv.0.0",
+      "acc": 91.4062,
+      "damage": 0.3906,
+      "ce": 0.325082,
+      "dce": 0.000878,
+      "rank": 45
+    },
+    {
+      "name": "features.7.conv.0.0",
+      "acc": 91.4062,
+      "damage": 0.3906,
+      "ce": 0.326599,
+      "dce": 0.002395,
+      "rank": 46
+    },
+    {
+      "name": "features.4.conv.1.0",
+      "acc": 91.4062,
+      "damage": 0.3906,
+      "ce": 0.327903,
+      "dce": 0.003699,
+      "rank": 47
+    },
+    {
+      "name": "features.0.0",
+      "acc": 91.4062,
+      "damage": 0.3906,
+      "ce": 0.338662,
+      "dce": 0.014458,
+      "rank": 48
+    },
+    {
+      "name": "features.3.conv.1.0",
+      "acc": 91.2109,
+      "damage": 0.5859,
+      "ce": 0.327245,
+      "dce": 0.00304,
+      "rank": 49
+    },
+    {
+      "name": "features.3.conv.2",
+      "acc": 90.8203,
+      "damage": 0.9766,
+      "ce": 0.341031,
+      "dce": 0.016827,
+      "rank": 50
+    },
+    {
+      "name": "features.1.conv.1",
+      "acc": 90.4297,
+      "damage": 1.3672,
+      "ce": 0.331822,
+      "dce": 0.007618,
+      "rank": 51
+    },
+    {
+      "name": "features.1.conv.0.0",
+      "acc": 89.6484,
+      "damage": 2.1484,
+      "ce": 0.391149,
+      "dce": 0.066945,
+      "rank": 52
+    }
+  ]
+}

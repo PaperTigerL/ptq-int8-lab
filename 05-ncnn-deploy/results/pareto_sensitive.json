@@ -1,0 +1,90 @@
+{
+ "meta": {
+  "scales": "/mnt/d/WorkBuddy/ShowBro/lab/03-ptq-lab/results/cifar10_resnet18/scales_w8a8_minmax_mine.json",
+  "sens": "/mnt/d/WorkBuddy/ShowBro/lab/03-ptq-lab/results/cifar10_resnet18/e4_sensitivity_1004-111246.json",
+  "limit": 0,
+  "threads": 1
+ },
+ "results": [
+  {
+   "k": 0,
+   "kept_fp16": [],
+   "quantized_layers": 20,
+   "acc": 87.17,
+   "ms_per_image": 8.267,
+   "bin_kb": 10948.0
+  },
+  {
+   "k": 1,
+   "kept_fp16": [
+    "layer3.0.conv2"
+   ],
+   "quantized_layers": 19,
+   "acc": 87.2,
+   "ms_per_image": 9.121,
+   "bin_kb": 11523.0
+  },
+  {
+   "k": 2,
+   "kept_fp16": [
+    "layer3.0.conv2",
+    "layer2.0.downsample.0"
+   ],
+   "quantized_layers": 18,
+   "acc": 87.18,
+   "ms_per_image": 8.567,
+   "bin_kb": 11530.4
+  },
+  {
+   "k": 4,
+   "kept_fp16": [
+    "layer3.0.conv2",
+    "layer2.0.downsample.0",
+    "layer4.0.conv1",
+    "layer4.1.conv1"
+   ],
+   "quantized_layers": 16,
+   "acc": 87.15,
+   "ms_per_image": 14.345,
+   "bin_kb": 14982.4
+  },
+  {
+   "k": 8,
+   "kept_fp16": [
+    "layer3.0.conv2",
+    "layer2.0.downsample.0",
+    "layer4.0.conv1",
+    "layer4.1.conv1",
+    "layer2.0.conv2",
+    "layer3.1.conv1",
+    "layer3.1.conv2",
+    "layer4.0.conv2"
+   ],
+   "quantized_layers": 12,
+   "acc": 87.13,
+   "ms_per_image": 13.215,
+   "bin_kb": 18577.9
+  },
+  {
+   "k": 12,
+   "kept_fp16": [
+    "layer3.0.conv2",
+    "layer2.0.downsample.0",
+    "layer4.0.conv1",
+    "layer4.1.conv1",
+    "layer2.0.conv2",
+    "layer3.1.conv1",
+    "layer3.1.conv2",
+    "layer4.0.conv2",
+    "layer4.0.downsample.0",
+    "layer4.1.conv2",
+    "layer3.0.downsample.0",
+    "layer2.1.conv2"
+   ],
+   "quantized_layers": 8,
+   "acc": 87.05,
+   "ms_per_image": 13.77,
+   "bin_kb": 21180.4
+  }
+ ]
+}

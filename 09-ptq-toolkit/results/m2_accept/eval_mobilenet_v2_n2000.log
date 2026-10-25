@@ -1,0 +1,12 @@
+模型 MobileNetV2（mobilenet_v2）· 训练权重 314 个张量 · 测试集 2000 张 · device=cpu
+协议：训练权重 → BN 折叠 → 同一 test loader → fp32 基线 → 逐候选 Conv2d QDQ（fc fp32）
+fp32 基线 92.85%（3.8 s）
+  [w8a8            ]  92.95%  掉点 -0.10 pp  PASS（4.1 s）
+  [w4a8_ch         ]  87.80%  掉点  5.05 pp  FAIL（4.2 s）
+评测结果 → results/m2_accept/eval_mobilenet_v2_n2000.json（23.0 s）
+候选                    fp32      量化      掉点  判定
+----------------------------------------------------
+w8a8                 92.85   92.95   -0.10  PASS
+w4a8_ch              92.85   87.80    5.05  FAIL
+
+mobilenet_v2：1/2 个候选 <= 3.0 pp · 结果 results/m2_accept/eval_mobilenet_v2_n2000.json

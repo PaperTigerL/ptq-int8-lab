@@ -1,0 +1,3 @@
+{"model": "mobilenet_v2", "exit_code": 0, "timeout_s": 1800,
+ "duration_s": 183, "end": "2026-10-23T08:22:21+08:00",
+ "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth", "calib_n": 512}

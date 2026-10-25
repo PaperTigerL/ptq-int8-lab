@@ -1,0 +1,3 @@
+{"model": "resnet50", "exit_code": 0, "timeout_s": 2400,
+ "duration_s": 880, "start": "2026-10-22T20:23:13+08:00",
+ "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_resnet50_r50aug20_ep18.pth", "iters": 300, "warmup": 50}

@@ -1,0 +1,94 @@
+# idle_final 2026-10-20 10:37:13
+#
+# 门控判据：util <= 20% 连续 3 次，最多等 60s。
+#   **等不到也照常测量，不跳过** —— 跳过 = 白跑；
+#   测了并标注 = 至少拿到「被占用时的下界」。
+#
+# 为什么阈值是 20% 而不是 5%：本机**空闲时** util 就有 10~18%
+#   —— 桌面合成器 + 常驻 Electron 窗口（WorkBuddy/豆包/WXWork/
+#   DingTalk/B站，约 790 MiB）撑着。它们是图形进程，
+#   nvidia-smi 的 compute-apps 里查不到，但让 utilization.gpu 常年有底噪。
+#   而**真实计算负载时** util 稳定 95~100%。
+#   所以 20% 恰好落在两者之间，是有效的分界。
+#   （曾试「相对基线 baseline+8」，实测失败：采样里一次 0% 就把 min 基线
+#     拉到 0，判据塌成 util<=8%，比不做还糟。）
+#   第一版门控就是这么写的，三个配置各等 900s 然后全部 SKIP。
+#
+# 每配置 6 轮，batch=512，每轮记录 util 与显存。
+# 事后按 util 分档：util<=20% 的轮次为「低档」，其 median 是可信值；
+#   util>20% 的轮次为「高档」（被占用时的下界），单独列出。
+#   （见文件末尾的分档统计）。
+# 口径：只计 forward + synchronize，不含数据准备。
+# 注意：被别的进程占着只会让数字偏慢，所以被占时的数据是下界不是上界。
+
+--- fp32 batch=512 skip=0 ---
+门控：判据 util<= 20% 连续 3 次，最多等 60s
+门控时刻 util=88%  结果：未通过（等满超时，**照常测量**）
+复用 engine: resnet18_cifar10_fp32_b512.trt
+engine: in=input DataType.FLOAT | out=logits DataType.FLOAT
+样本 10000 (skip 0), batch 512 | GPU 开跑前 2961 MiB / 81%
+  ⚠️ GPU 正被别的进程占着，这一轮数字会被污染，建议等空闲再测
+  round 1: 0.1313 ms/img  精度 87.16%  (开跑前 GPU 2955 MiB / 81%)
+            (跑完后 GPU 2969 MiB / 92%)
+  round 2: 0.0808 ms/img  精度 87.16%  (开跑前 GPU 2969 MiB / 92%)
+            (跑完后 GPU 2981 MiB / 87%)
+  round 3: 0.0248 ms/img  精度 87.16%  (开跑前 GPU 2981 MiB / 87%)
+            (跑完后 GPU 2981 MiB / 87%)
+  round 4: 0.0246 ms/img  精度 87.16%  (开跑前 GPU 2981 MiB / 87%)
+            (跑完后 GPU 2981 MiB / 61%)
+  round 5: 0.0276 ms/img  精度 87.16%  (开跑前 GPU 2981 MiB / 61%)
+            (跑完后 GPU 3007 MiB / 61%)
+  round 6: 0.0289 ms/img  精度 87.16%  (开跑前 GPU 3006 MiB / 61%)
+            (跑完后 GPU 2928 MiB / 58%)
+----------------------------------------
+精度 87.16%
+最优 0.0246 ms/img | 中位 0.0289 | 全量 10000 张约 0.25 s
+  ⚠️ 波动 0.0246 ~ 0.1313，机器忙，取最优值
+
+--- fp16 batch=512 skip=0 ---
+门控：判据 util<= 20% 连续 3 次，最多等 60s
+门控时刻 util=82%  结果：未通过（等满超时，**照常测量**）
+复用 engine: resnet18_cifar10_fp16_b512.trt
+engine: in=input DataType.HALF | out=logits DataType.HALF
+样本 10000 (skip 0), batch 512 | GPU 开跑前 3394 MiB / 100%
+  ⚠️ GPU 正被别的进程占着，这一轮数字会被污染，建议等空闲再测
+  round 1: 0.0128 ms/img  精度 87.18%  (开跑前 GPU 3394 MiB / 100%)
+            (跑完后 GPU 3402 MiB / 100%)
+  round 2: 0.0129 ms/img  精度 87.18%  (开跑前 GPU 3402 MiB / 100%)
+            (跑完后 GPU 3403 MiB / 51%)
+  round 3: 0.0130 ms/img  精度 87.18%  (开跑前 GPU 3403 MiB / 51%)
+            (跑完后 GPU 3403 MiB / 51%)
+  round 4: 0.0129 ms/img  精度 87.18%  (开跑前 GPU 3403 MiB / 51%)
+            (跑完后 GPU 3179 MiB / 31%)
+  round 5: 0.0225 ms/img  精度 87.18%  (开跑前 GPU 3009 MiB / 31%)
+            (跑完后 GPU 2842 MiB / 31%)
+  round 6: 0.0194 ms/img  精度 87.18%  (开跑前 GPU 2842 MiB / 31%)
+            (跑完后 GPU 2842 MiB / 53%)
+----------------------------------------
+精度 87.18%
+最优 0.0128 ms/img | 中位 0.0130 | 全量 10000 张约 0.13 s
+  ⚠️ 波动 0.0128 ~ 0.0225，机器忙，取最优值
+
+--- int8 batch=512 skip=1000 ---
+门控：判据 util<= 20% 连续 3 次，最多等 60s
+门控时刻 util=100%  结果：未通过（等满超时，**照常测量**）
+复用 engine: resnet18_cifar10_int8_b512.trt
+engine: in=input DataType.FLOAT | out=logits DataType.FLOAT
+样本 9000 (skip 1000), batch 512 | GPU 开跑前 2836 MiB / 30%
+  ⚠️ GPU 正被别的进程占着，这一轮数字会被污染，建议等空闲再测
+  round 1: 0.0872 ms/img  精度 87.21%  (开跑前 GPU 2830 MiB / 30%)
+            (跑完后 GPU 2837 MiB / 62%)
+  round 2: 0.0789 ms/img  精度 87.21%  (开跑前 GPU 2835 MiB / 89%)
+            (跑完后 GPU 2824 MiB / 91%)
+  round 3: 0.0875 ms/img  精度 87.21%  (开跑前 GPU 2824 MiB / 91%)
+            (跑完后 GPU 2818 MiB / 89%)
+  round 4: 0.1061 ms/img  精度 87.21%  (开跑前 GPU 2818 MiB / 89%)
+            (跑完后 GPU 2827 MiB / 92%)
+  round 5: 0.1792 ms/img  精度 87.21%  (开跑前 GPU 2827 MiB / 92%)
+            (跑完后 GPU 2829 MiB / 97%)
+  round 6: 0.0634 ms/img  精度 87.21%  (开跑前 GPU 2829 MiB / 96%)
+            (跑完后 GPU 2809 MiB / 87%)
+----------------------------------------
+精度 87.21%
+最优 0.0634 ms/img | 中位 0.0875 | 全量 10000 张约 0.63 s
+  ⚠️ 波动 0.0634 ~ 0.1792，机器忙，取最优值

@@ -1,0 +1,100 @@
+模型 resnet50 · 权重 320 个张量 · BN 已折叠
+校准 512 张；阶段 A 粗排 64 张；阶段 B 复核 512 张（batch=256）
+A8 AbsMax 校准完成：53 层（17.0 s）
+fp32 基线：rank@64 96.8750% · recheck@512 98.8281%（9.8 s）
+W32A8 基线：rank@64 96.8750% · recheck@512 98.8281%（24.1 s）
+  rank [00/53] conv1                                      W8  -1.562 pp  W4  +0.000 pp
+  rank [01/53] layer1.0.conv1                             W8  -1.562 pp  W4  +0.000 pp
+  rank [02/53] layer1.0.conv2                             W8  +0.000 pp  W4  -1.562 pp
+  rank [03/53] layer1.0.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [04/53] layer1.0.downsample.0                      W8  +0.000 pp  W4  -1.562 pp
+  rank [05/53] layer1.1.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [06/53] layer1.1.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [07/53] layer1.1.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [08/53] layer1.2.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [09/53] layer1.2.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [10/53] layer1.2.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [11/53] layer2.0.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [12/53] layer2.0.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [13/53] layer2.0.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [14/53] layer2.0.downsample.0                      W8  +0.000 pp  W4  -1.562 pp
+  rank [15/53] layer2.1.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [16/53] layer2.1.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [17/53] layer2.1.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [18/53] layer2.2.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [19/53] layer2.2.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [20/53] layer2.2.conv3                             W8  +0.000 pp  W4  -1.562 pp
+  rank [21/53] layer2.3.conv1                             W8  +0.000 pp  W4  -1.562 pp
+  rank [22/53] layer2.3.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [23/53] layer2.3.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [24/53] layer3.0.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [25/53] layer3.0.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [26/53] layer3.0.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [27/53] layer3.0.downsample.0                      W8  +0.000 pp  W4  +0.000 pp
+  rank [28/53] layer3.1.conv1                             W8  +0.000 pp  W4  -1.562 pp
+  rank [29/53] layer3.1.conv2                             W8  +0.000 pp  W4  -1.562 pp
+  rank [30/53] layer3.1.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [31/53] layer3.2.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [32/53] layer3.2.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [33/53] layer3.2.conv3                             W8  +0.000 pp  W4  -1.562 pp
+  rank [34/53] layer3.3.conv1                             W8  +0.000 pp  W4  -1.562 pp
+  rank [35/53] layer3.3.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [36/53] layer3.3.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [37/53] layer3.4.conv1                             W8  +0.000 pp  W4  -1.562 pp
+  rank [38/53] layer3.4.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [39/53] layer3.4.conv3                             W8  +0.000 pp  W4  -1.562 pp
+  rank [40/53] layer3.5.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [41/53] layer3.5.conv2                             W8  +0.000 pp  W4  -1.562 pp
+  rank [42/53] layer3.5.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [43/53] layer4.0.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [44/53] layer4.0.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [45/53] layer4.0.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [46/53] layer4.0.downsample.0                      W8  +0.000 pp  W4  +0.000 pp
+  rank [47/53] layer4.1.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [48/53] layer4.1.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [49/53] layer4.1.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  rank [50/53] layer4.2.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  rank [51/53] layer4.2.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  rank [52/53] layer4.2.conv3                             W8  +0.000 pp  W4  +0.000 pp
+阶段 A 完成：53 层 × 2 位宽 @ 64 张（340.1 s）
+阶段 B 复核层：12 层（W4 top10 ∪ W8 top6）
+  recheck [01/12] conv1                                      W8  -0.195 pp  W4  +1.953 pp
+  recheck [02/12] layer1.0.conv1                             W8  -0.586 pp  W4  +0.000 pp
+  recheck [03/12] layer1.0.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [04/12] layer1.1.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [05/12] layer1.1.conv2                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [06/12] layer1.1.conv3                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [07/12] layer1.2.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [08/12] layer1.2.conv2                             W8  -0.195 pp  W4  +0.000 pp
+  recheck [09/12] layer1.2.conv3                             W8  +0.000 pp  W4  -0.391 pp
+  recheck [10/12] layer2.0.conv1                             W8  +0.000 pp  W4  +0.000 pp
+  recheck [11/12] layer1.0.conv2                             W8  +0.000 pp  W4  -0.195 pp
+  recheck [12/12] layer1.0.downsample.0                      W8  +0.000 pp  W4  -0.391 pp
+阶段 B 完成（673.7 s）
+  计划 all_w4             W8= 0 acc=97.4609%  掉点  +1.367 pp
+  计划 structural         W8= 6 acc=98.2422%  掉点  +0.586 pp
+  计划 top4_only          W8= 4 acc=97.2656%  掉点  +1.562 pp
+  计划 top8_only          W8= 8 acc=96.4844%  掉点  +2.344 pp
+  计划 top12_only         W8=12 acc=96.6797%  掉点  +2.148 pp
+  计划 top4_all           W8= 4 acc=98.8281%  掉点  +0.000 pp
+  计划 structural_top4    W8=10 acc=98.6328%  掉点  +0.195 pp
+  计划 top8_all           W8= 8 acc=98.8281%  掉点  +0.000 pp
+  计划 structural_top8    W8=14 acc=98.6328%  掉点  +0.195 pp
+计划评测完成（225.4 s）
+
+推荐计划：top4_all · W8 4 层 / W4 49 层 · 掉点 +0.000 pp（target<=1.0pp, min W8 layers）
+Top-12 敏感层（复核层按 512 掉点，其余按 64 估计）：
+   1. conv1                                      W4  +1.953 pp  W8  -0.195 pp  [recheck@512]  结构化
+   2. layer1.0.conv1                             W4  +0.000 pp  W8  -0.586 pp  [recheck@512]
+   3. layer1.0.conv3                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+   4. layer1.1.conv1                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+   5. layer1.1.conv2                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+   6. layer1.1.conv3                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+   7. layer1.2.conv1                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+   8. layer1.2.conv2                             W4  +0.000 pp  W8  -0.195 pp  [recheck@512]
+   9. layer2.0.conv1                             W4  +0.000 pp  W8  +0.000 pp  [recheck@512]
+  10. layer1.0.conv2                             W4  -0.195 pp  W8  +0.000 pp  [recheck@512]
+  11. layer1.0.downsample.0                      W4  -0.391 pp  W8  +0.000 pp  [recheck@512]  结构化
+  12. layer1.2.conv3                             W4  -0.391 pp  W8  +0.000 pp  [recheck@512]
+→ results/i2/layer_sensitivity_resnet50.json
+→ results/i2/layer_sensitivity_resnet50.csv

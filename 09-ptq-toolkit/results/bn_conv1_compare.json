@@ -1,0 +1,378 @@
+{
+  "arch": "resnet50",
+  "device": "cuda",
+  "threads": 2,
+  "batches": 8,
+  "bn_scope": "all",
+  "n_eval": 10000,
+  "conv1_modes": [
+    "A",
+    "B",
+    "C"
+  ],
+  "bn_modes": [
+    "keep",
+    "reestimate",
+    "reset"
+  ],
+  "src_conv1_shape": [
+    64,
+    3,
+    7,
+    7
+  ],
+  "disk_conv1_bit_identical": true,
+  "rows": [
+    {
+      "conv1": "A",
+      "conv1_impl": "center_crop_noscale",
+      "bn": "keep",
+      "bn_scope": "all",
+      "fp32_acc": 10.0,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "A",
+        "impl": "center_crop_noscale",
+        "ratio": 1.0,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 605.1936,
+        "l1_ratio": 0.4116,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.350228,
+        "equals_center_crop": true,
+        "l1_less_than_src": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 0
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "A",
+      "conv1_impl": "center_crop_noscale",
+      "bn": "reestimate",
+      "bn_scope": "all",
+      "fp32_acc": 10.0,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "A",
+        "impl": "center_crop_noscale",
+        "ratio": 1.0,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 605.1936,
+        "l1_ratio": 0.4116,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.350228,
+        "equals_center_crop": true,
+        "l1_less_than_src": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 8
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "A",
+      "conv1_impl": "center_crop_noscale",
+      "bn": "reset",
+      "bn_scope": "all",
+      "fp32_acc": 10.06,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "A",
+        "impl": "center_crop_noscale",
+        "ratio": 1.0,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 605.1936,
+        "l1_ratio": 0.4116,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.350228,
+        "equals_center_crop": true,
+        "l1_less_than_src": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "B",
+      "conv1_impl": "center_crop_area_scaled",
+      "bn": "keep",
+      "bn_scope": "all",
+      "fp32_acc": 10.9,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "B",
+        "impl": "center_crop_area_scaled",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 3294.9429,
+        "l1_ratio": 2.2412,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 1.906796,
+        "equals_center_crop": false,
+        "equals_center_times_ratio": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 0
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "B",
+      "conv1_impl": "center_crop_area_scaled",
+      "bn": "reestimate",
+      "bn_scope": "all",
+      "fp32_acc": 10.0,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "B",
+        "impl": "center_crop_area_scaled",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 3294.9429,
+        "l1_ratio": 2.2412,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 1.906796,
+        "equals_center_crop": false,
+        "equals_center_times_ratio": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 8
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "B",
+      "conv1_impl": "center_crop_area_scaled",
+      "bn": "reset",
+      "bn_scope": "all",
+      "fp32_acc": 10.0,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "B",
+        "impl": "center_crop_area_scaled",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 3294.9429,
+        "l1_ratio": 2.2412,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 1.906796,
+        "equals_center_crop": false,
+        "equals_center_times_ratio": true
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "C",
+      "conv1_impl": "kernel_sum_pool",
+      "bn": "keep",
+      "bn_scope": "all",
+      "fp32_acc": 9.61,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "C",
+        "impl": "kernel_sum_pool",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 780.5041,
+        "l1_ratio": 0.5309,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.451681,
+        "equals_center_crop": false,
+        "is_pooled_not_crop": true,
+        "l1_preserved": false
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 0
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "C",
+      "conv1_impl": "kernel_sum_pool",
+      "bn": "reestimate",
+      "bn_scope": "all",
+      "fp32_acc": 10.0,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "C",
+        "impl": "kernel_sum_pool",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 780.5041,
+        "l1_ratio": 0.5309,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.451681,
+        "equals_center_crop": false,
+        "is_pooled_not_crop": true,
+        "l1_preserved": false
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53,
+        "batches": 8
+      },
+      "peak_mem_mib": 1189.1
+    },
+    {
+      "conv1": "C",
+      "conv1_impl": "kernel_sum_pool",
+      "bn": "reset",
+      "bn_scope": "all",
+      "fp32_acc": 10.39,
+      "n_eval": 10000,
+      "batches": 8,
+      "conv1_selfcheck": {
+        "mode": "C",
+        "impl": "kernel_sum_pool",
+        "ratio": 5.4444,
+        "src_shape": [
+          64,
+          3,
+          7,
+          7
+        ],
+        "dst_shape": [
+          64,
+          3,
+          3,
+          3
+        ],
+        "src_l1": 1470.1881,
+        "dst_l1": 780.5041,
+        "l1_ratio": 0.5309,
+        "src_mean_abs": 0.15627,
+        "dst_mean_abs": 0.451681,
+        "equals_center_crop": false,
+        "is_pooled_not_crop": true,
+        "l1_preserved": false
+      },
+      "bn_info": {
+        "scope": "all",
+        "n_layers": 53
+      },
+      "peak_mem_mib": 1189.1
+    }
+  ]
+}

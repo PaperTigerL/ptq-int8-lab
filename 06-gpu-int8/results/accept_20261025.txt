@@ -1,0 +1,91 @@
+==== nvidia-smi ====
+1350 MHz, 923 MiB
+
+int8_kernels.cu(414): warning #177-D: variable "WARPS" was declared but never referenced
+      constexpr int WARPS = 8;
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+════ 探针：数值正确性（从最小到完整）════
+
+──── ./build/probe_gemm ────
+M=64 K=128 N=32，行主序 C = A@B
+from_blob（无 device，默认 CPU）         bad=  468/2048 x
+from_blob().to(kCUDA).contiguous()             bad=    0/2048 OK
+wrap_i8_cuda（device_ptr + 显式 device）   bad=    0/2048 OK
+
+结论：GEMM 层用 at::_int_mm，不要自己调 cublasGemmEx。
+      裸指针调用会绕过 libtorch 的设备/布局规范化，输出垃圾值且不报错。
+
+──── ./build/probe_im2col ────
+N=2 C=4 H=8 W=8 k=3x3 s=2 p=1 → OH=4 OW=4 K=36 Kpad=40
+im2col 映射：不一致 0 / 1280 ✓（索引映射正确）
+
+──── ./build/probe_im2col_quant ────
+lo=-1.300 hi=2.700 → scale=0.021260 zp=0 qmax=127
+N=3 C=5 H=9 W=7 k=3x3 s=(2,1) p=(1,2) → OH=5 OW=9 K=45 Kpad=48
+码字范围检查：lo→-61  hi→127  （clamp 到 [-(qmax+1), qmax] = [-128, 127]）
+im2col+量化：不一致 0 / 6480 ✓
+GPU 码字范围 [-61, 127]（clamp 区间 [-128, 127]）
+
+──── ./build/probe_zp ────
+输入恒为 0.5 | scale=0.0259842519 zp=0 | sync=no error
+期望码字 = round(0.5/scale) = 19
+gpu col[0..7] = 0 0 0 0 19 19 0 19
+
+════ 单层数值校验（vs CPU 参考实现）════
+
+──── ./build/check_layer resnet18_folded.bin calib_minmax.bin 2 --n 4 --quiet ────
+层 2: cout=64 cin=64 k=3x3 s=1 p=1 | K=576 Kpad=576 OH=32 OW=32
+
+[CPU 参考]
+
+[GPU int8]
+implicit GEMM: launched | int32 mismatch 0 / 262144 | max|diff| 0 | first -1
+im2col 不一致 0 / 2359296
+int32 不一致 0 / 262144
+元素 262144 | max|diff| = 9.53674e-07 | 超 1e-3 的 0 个 (0.00%)
+单层一致 ✓
+
+──── ./build/check_layer resnet18_folded.bin calib_minmax.bin 9 --n 4 --quiet ────
+层 9: cout=128 cin=128 k=3x3 s=1 p=1 | K=1152 Kpad=1152 OH=32 OW=32
+
+[CPU 参考]
+
+[GPU int8]
+implicit GEMM: launched | int32 mismatch 0 / 524288 | max|diff| 0 | first -1
+im2col 不一致 0 / 4718592
+int32 不一致 0 / 524288
+元素 524288 | max|diff| = 9.53674e-07 | 超 1e-3 的 0 个 (0.00%)
+单层一致 ✓
+
+════ 全量评测（10000 张）════
+--- W8A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 87.01%（8701/10000）
+全量前向 0.478 s（含数据准备 0.046 s，含一次性开销）
+稳态 0.0419 ms/img（batch=500，预热后重复 60 次取最快）
+加速 277×（vs ncnn CPU fp32 11.6 ms/img）
+--- W6A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 86.90%（8690/10000）
+全量前向 0.505 s（含数据准备 0.057 s，含一次性开销）
+稳态 0.0422 ms/img（batch=500，预热后重复 60 次取最快）
+加速 275×（vs ncnn CPU fp32 11.6 ms/img）
+--- W4A8 ---
+GPU 显存：总 4095 MB，已用 804 MB，可用 3290 MB
+精度 85.41%（8541/10000）
+全量前向 0.491 s（含数据准备 0.049 s，含一次性开销）
+稳态 0.0416 ms/img（batch=500，预热后重复 60 次取最快）
+加速 279×（vs ncnn CPU fp32 11.6 ms/img）
+
+════ 全部探针通过 ════
+
+int8_kernels.cu(414): warning #177-D: variable "WARPS" was declared but never referenced
+      constexpr int WARPS = 8;
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+════ 1/3  numpy 参考实现（1000 张，纯 numpy 逐层算）════

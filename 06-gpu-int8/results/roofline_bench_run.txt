@@ -1,0 +1,91 @@
+model: 20 convs, 8 blocks, stem_pool=1, batch=512, iters=15
+
+#    layer               Kpad     N      M im2col_old im2col_new     gemm       req     relu     TOPS  %peak
+     bit-exact: YES (mismatch 0 / 19922944)
+     requant bit-exact: YES (mismatch 0)  old 0.796 -> new 0.408 ms (x2.0)
+0    3->64 k7s2           152    64 131072     2.088     1.644    0.533     0.796    0.247     4.79  31.2%  x1.3
+     bw: im2col<=18.8 GB/s (读上界 0.02 GB + 写 0.02 GB)  gemm=37.4 GB/s  requant=84.3 GB/s
+     stem maxpool -> 8x8
+     bit-exact: YES (mismatch 0 / 18874368)
+     requant bit-exact: YES (mismatch 0)  old 0.212 -> new 0.103 ms (x2.1)
+1    64->64 k3s1          576    64  32768     1.957     1.131    0.391     0.212    0.065     6.17  40.2%  x1.7
+     bw: im2col<=19.3 GB/s (读上界 0.02 GB + 写 0.02 GB)  gemm=48.3 GB/s  requant=79.1 GB/s
+     bit-exact: YES (mismatch 0 / 18874368)
+     requant bit-exact: YES (mismatch 0)  old 0.211 -> new 0.103 ms (x2.0)
+2    64->64 k3s1          576    64  32768     1.973     1.137    0.377     0.211    0.000     6.41  41.8%  x1.7
+     bw: im2col<=19.1 GB/s (读上界 0.02 GB + 写 0.02 GB)  gemm=50.1 GB/s  requant=79.3 GB/s
+     bit-exact: YES (mismatch 0 / 18874368)
+     requant bit-exact: YES (mismatch 0)  old 0.214 -> new 0.103 ms (x2.1)
+3    64->64 k3s1          576    64  32768     1.964     1.135    0.389     0.214    0.064     6.21  40.5%  x1.7
+     bw: im2col<=19.2 GB/s (读上界 0.02 GB + 写 0.02 GB)  gemm=48.6 GB/s  requant=78.6 GB/s
+     bit-exact: YES (mismatch 0 / 18874368)
+     requant bit-exact: YES (mismatch 0)  old 0.215 -> new 0.103 ms (x2.1)
+4    64->64 k3s1          576    64  32768     1.942     1.144    0.380     0.215    0.000     6.36  41.5%  x1.7
+     bw: im2col<=19.4 GB/s (读上界 0.02 GB + 写 0.02 GB)  gemm=49.8 GB/s  requant=78.2 GB/s
+     bit-exact: YES (mismatch 0 / 524288)
+     requant bit-exact: YES (mismatch 0)  old 0.083 -> new 0.056 ms (x1.5)
+5    64->128 k1s2          64   128   8192     0.067     0.065    0.034     0.083    0.000     3.92  25.5%  x1.0
+     bw: im2col<=15.6 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=15.5 GB/s  requant=100.6 GB/s
+     bit-exact: YES (mismatch 0 / 4718592)
+     requant bit-exact: YES (mismatch 0)  old 0.082 -> new 0.056 ms (x1.5)
+6    64->128 k3s2         576   128   8192     0.509     0.278    0.113     0.082    0.034    10.71  69.8%  x1.8
+     bw: im2col<=18.5 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=42.5 GB/s  requant=102.4 GB/s
+     bit-exact: YES (mismatch 0 / 9437184)
+     requant bit-exact: YES (mismatch 0)  old 0.089 -> new 0.060 ms (x1.5)
+7    128->128 k3s1       1152   128   8192     0.952     0.460    0.223     0.089    0.000    10.82  70.6%  x2.1
+     bw: im2col<=19.8 GB/s (读上界 0.01 GB + 写 0.01 GB)  gemm=42.9 GB/s  requant=94.7 GB/s
+     bit-exact: YES (mismatch 0 / 9437184)
+     requant bit-exact: YES (mismatch 0)  old 0.087 -> new 0.055 ms (x1.6)
+8    128->128 k3s1       1152   128   8192     1.003     0.467    0.220     0.087    0.034    10.99  71.7%  x2.1
+     bw: im2col<=18.8 GB/s (读上界 0.01 GB + 写 0.01 GB)  gemm=43.6 GB/s  requant=96.4 GB/s
+     bit-exact: YES (mismatch 0 / 9437184)
+     requant bit-exact: YES (mismatch 0)  old 0.087 -> new 0.058 ms (x1.5)
+9    128->128 k3s1       1152   128   8192     0.968     0.441    0.201     0.087    0.000    12.02  78.3%  x2.2
+     bw: im2col<=19.5 GB/s (读上界 0.01 GB + 写 0.01 GB)  gemm=47.7 GB/s  requant=96.6 GB/s
+     bit-exact: YES (mismatch 0 / 262144)
+     requant bit-exact: YES (mismatch 0)  old 0.044 -> new 0.094 ms (x0.5)
+10   128->256 k1s2        128   256   2048     0.036     0.032    0.026     0.044    0.000     5.15  33.6%  x1.1
+     bw: im2col<=14.5 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=11.3 GB/s  requant=95.1 GB/s
+     bit-exact: YES (mismatch 0 / 2359296)
+     requant bit-exact: YES (mismatch 0)  old 0.042 -> new 0.091 ms (x0.5)
+11   128->256 k3s2       1152   256   2048     0.257     0.125    0.096     0.042    0.021    12.58  82.0%  x2.1
+     bw: im2col<=18.4 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=27.6 GB/s  requant=98.8 GB/s
+     bit-exact: YES (mismatch 0 / 4718592)
+     requant bit-exact: YES (mismatch 0)  old 0.042 -> new 0.105 ms (x0.4)
+12   256->256 k3s1       2304   256   2048     0.505     0.207    0.173     0.042    0.000    13.94  90.9%  x2.4
+     bw: im2col<=18.7 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=30.6 GB/s  requant=100.0 GB/s
+     bit-exact: YES (mismatch 0 / 4718592)
+     requant bit-exact: YES (mismatch 0)  old 0.042 -> new 0.089 ms (x0.5)
+13   256->256 k3s1       2304   256   2048     0.487     0.220    0.173     0.042    0.020    13.96  91.0%  x2.2
+     bw: im2col<=19.4 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=30.7 GB/s  requant=99.1 GB/s
+     bit-exact: YES (mismatch 0 / 4718592)
+     requant bit-exact: YES (mismatch 0)  old 0.043 -> new 0.090 ms (x0.5)
+14   256->256 k3s1       2304   256   2048     0.503     0.205    0.184     0.043    0.000    13.13  85.6%  x2.4
+     bw: im2col<=18.8 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=28.8 GB/s  requant=98.2 GB/s
+     bit-exact: YES (mismatch 0 / 131072)
+     requant bit-exact: YES (mismatch 0)  old 0.052 -> new 0.166 ms (x0.3)
+15   256->512 k1s2        256   512    512     0.020     0.018    0.080     0.052    0.000     1.67  10.9%  x1.1
+     bw: im2col<=13.0 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=3.3 GB/s  requant=40.6 GB/s
+     bit-exact: YES (mismatch 0 / 1179648)
+     requant bit-exact: YES (mismatch 0)  old 0.024 -> new 0.169 ms (x0.1)
+16   256->512 k3s2       2304   512    512     0.149     0.071    0.091     0.024    0.016    13.28  86.5%  x2.1
+     bw: im2col<=15.9 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=25.9 GB/s  requant=86.4 GB/s
+     bit-exact: YES (mismatch 0 / 2359296)
+     requant bit-exact: YES (mismatch 0)  old 0.024 -> new 0.167 ms (x0.1)
+17   512->512 k3s1       4608   512    512     0.256     0.126    0.168     0.024    0.000    14.39  93.8%  x2.0
+     bw: im2col<=18.5 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=28.1 GB/s  requant=87.7 GB/s
+     bit-exact: YES (mismatch 0 / 2359296)
+     requant bit-exact: YES (mismatch 0)  old 0.023 -> new 0.165 ms (x0.1)
+18   512->512 k3s1       4608   512    512     0.266     0.101    0.166     0.023    0.012    14.53  94.7%  x2.6
+     bw: im2col<=17.7 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=28.4 GB/s  requant=89.9 GB/s
+     bit-exact: YES (mismatch 0 / 2359296)
+     requant bit-exact: YES (mismatch 0)  old 0.025 -> new 0.165 ms (x0.2)
+19   512->512 k3s1       4608   512    512     0.269     0.102    0.166     0.025    0.000    14.52  94.7%  x2.6
+     bw: im2col<=17.5 GB/s (读上界 0.00 GB + 写 0.00 GB)  gemm=28.4 GB/s  requant=84.4 GB/s
+
+合计 batch=512: im2col(旧) 16.172 | im2col(新) 9.107 | gemm 4.185 | requant 2.437 -> 1.466 | relu 0.513 ms
+占比(新):    im2col  59.6% | gemm  27.4% | requant   9.6% | relu   3.4%
+总(旧) 23.306 ms/batch = 0.0455 ms/img；总(新) 15.270 ms/batch = 0.0298 ms/img
+im2col 加速 1.78x；全段加速 1.53x（不含 add/maxpool/fc/数据搬运）
+GEMM 聚合 9.08 TOPS = 峰值的 59.2%
+理论下限（GEMM 100% 峰值 + 其余用新实测） 14.533 ms/batch = 0.0284 ms/img

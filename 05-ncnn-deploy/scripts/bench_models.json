@@ -1,0 +1,34 @@
+{
+  "threads": 1,
+  "_note": "expect 来自 docs/阶段1-ncnn-INT8基线.md 与 docs/阶段3b 的实测记录（全量 10000 张，单线程）。改 ncnn 量化通路后跑 bench.py 校验，超容差即 FAIL。",
+  "models": [
+    {
+      "tag": "FP32",
+      "param": "models/resnet18_cifar10_opt.param",
+      "bin": "models/resnet18_cifar10_opt.bin",
+      "expect": 0.8716,
+      "why": "未量化基线，ncnn 与 PyTorch 差 0.01pp"
+    },
+    {
+      "tag": "W8A8",
+      "param": "models/resnet18_cifar10_int8.param",
+      "bin": "models/resnet18_cifar10_int8.bin",
+      "expect": 0.8705,
+      "why": "ncnn 原生 INT8（KL 表），阶段 1 基线"
+    },
+    {
+      "tag": "W4A4-sym",
+      "param": "models/resnet18_cifar10_w4_packed.param",
+      "bin": "models/resnet18_cifar10_w4_packed.bin",
+      "expect": 0.7842,
+      "why": "int4 权重打包 + 对称激活，阶段 3b"
+    },
+    {
+      "tag": "W4A4-asym",
+      "param": "models/resnet18_cifar10_w4_asym.param",
+      "bin": "models/resnet18_cifar10_w4_asym.bin",
+      "expect": 0.8392,
+      "why": "int4 + 非对称激活（zero_point 折进 bias），阶段 3b"
+    }
+  ]
+}

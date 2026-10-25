@@ -1,0 +1,17 @@
+Cuda device Number:0
+ Device name: NVIDIA GeForce GTX 1650 Ti
+ Device Memory Clock Rate (KHz): 6001000
+ Device Memory Bus Width (bits): 128
+ Device Peak Memory Bandwidth (GB/s): 128
+ Device Shared Memory Per Block (GB/s): 49152
+模型 /mnt/d/WorkBuddy/ShowBro/lab/05-ncnn-deploy/models/resnet18_cifar10.param
+后端 CUDA | 精度 fp32 | 样本 200 | batch 64
+arena 水位线: blob 0 MB | workspace 0 MB（惰性常驻区，之后不再回退到这里）
+arena 水位线: blob 0 MB | workspace 0 MB
+  round 1: GPU 14.9903 ms/img | 墙钟 15.4974 ms/img (H2D 0.0757 + D2H 0.0712) | 精度 10.50%
+  round 2: GPU 7.8440 ms/img | 墙钟 8.1109 ms/img (H2D 0.0759 + D2H 0.0634) | 精度 12.00%
+  round 3: GPU 7.7052 ms/img | 墙钟 7.8905 ms/img (H2D 0.0867 + D2H 0.0702) | 精度 12.00%
+----------------------------------------
+精度 12.00% (24/200)
+最优 GPU kernel  7.7052 ms/img  ->  1.5x
+最优 含传输墙钟  7.8905 ms/img  ->  1.5x

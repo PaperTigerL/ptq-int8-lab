@@ -1,0 +1,48 @@
+==========================================================================
+ptq-lab 遗留问题清单（2026-10-17）
+==========================================================================
+
+【1】各组合的 e7 是否都是 bug 修复后的
+--------------------------------------------------------------------------
+  cifar10_mobilenetv2      e7_combo_1017-130915  c2=72.15 c3=63.74 c4=82.78 c5=76.46  ⛔疑似 bug 数据
+  cifar10_mobilenetv2      e7_combo_1017-153042  c2=72.15 c3=81.70 c4=82.78 c5=83.17  ✓
+  cifar10_resnet18         e7_combo_1004-112037  c2=85.38 c3=86.83 c4=87.05 c5=87.21  ✓
+  cifar10_resnet18         e7_combo_1015-155614  c2=85.38 c3=86.33 c4=87.05 c5=87.05  ✓
+  cifar10_resnet18         e7_combo_1017-133758  c2=85.38 c3=86.92 c4=87.05 c5=87.05  ✓
+
+【2】非正式数据（iters != 20000）
+--------------------------------------------------------------------------
+  ⚠ cifar10_resnet18\e6_adaround_1004-111709.json  iters=None
+  ⚠ cifar10_resnet18\e6_adaround_1015-142338.json  iters=50
+  ⚠ cifar10_resnet18\e6_adaround_1015-142457.json  iters=50
+  ⚠ cifar10_resnet18\e6_adaround_1015-142704.json  iters=50
+  （以上均已被 rebuild_csv_all.py 过滤，仅作记录）
+
+【3】备份是否齐全
+--------------------------------------------------------------------------
+  config.py                        ✓ config.py.bak-before-param
+  src/data.py                      ✓ data.py.bak-before-param
+  src/model.py                     ✓ model.py.bak-before-param
+  src/adaround.py                  ✓ adaround.py.bak-before-official-align
+  experiments/e6_adaround.py       ✓ e6_adaround.py.bak-before-official-align
+  experiments/e7_combo.py          ✓ e7_combo.py.bak-before-e6-align
+  results/_backup_before_isolation/ : ✓
+
+【4】README 里是否残留 bug 期数据
+--------------------------------------------------------------------------
+  86\.33%    0 处  ✓ 无
+  \+0\.95%   0 处  ✓ 无
+  增益归零       2 处  ✓ 均在撤回说明内
+  63\.74%    1 处  ⚠ 有 1 处不在
+  87\.12%    0 处  ✓ 无
+  85\.34%    0 处  ✓ 无
+  86\.69%    0 处  ✓ 无
+
+【5】待办
+--------------------------------------------------------------------------
+  □ ResNet-18 e7 稳健性重跑（跑中）
+  □ CIFAR-100 + MobileNetV2 全套（跑中）
+  □ CIFAR-100 + ResNet-18 的 e7 稳健性（尚未跑）
+  □ CIFAR-100 基线 60.56% 过拟合，投稿前需重训
+
+==========================================================================

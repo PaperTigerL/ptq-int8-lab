@@ -1,0 +1,115 @@
+{
+  "model": "mobilenet_v2",
+  "model_name": "MobileNetV2",
+  "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth",
+  "eval_n": 512,
+  "n_test": 512,
+  "budget_pp": 1.0,
+  "device": "cpu",
+  "protocol": "训练权重→BN 折叠→同一 test loader→fp32 基线→逐候选只对 Conv2d 做 QDQ（fc 保持 fp32）→evaluate",
+  "note": "权重-only，未含激活量化；引擎侧真实 W8A8 仍需 GPU 验证。本评测不再按 --w-bits 4 二次量化。",
+  "fp32_acc": 91.7969,
+  "candidates": [
+    {
+      "model": "mobilenet_v2",
+      "model_name": "MobileNetV2",
+      "candidate": "w4pc_w8top24",
+      "display": "显式 per-layer 混合精度（W8 24 层 / 其余 W4）",
+      "eval_n": 512,
+      "n_test": 512,
+      "fp32_acc": 91.7969,
+      "quant_acc": 91.4062,
+      "acc_drop": 0.3906,
+      "budget_pp": 1.0,
+      "passed": true,
+      "plan": {
+        "counts": [
+          {
+            "bits": 4,
+            "scheme": "per_channel",
+            "group_size": 0,
+            "layers": 28
+          },
+          {
+            "bits": 8,
+            "scheme": "per_channel",
+            "group_size": 0,
+            "layers": 24
+          }
+        ],
+        "w8_layers": [
+          "features.0.0",
+          "features.1.conv.0.0",
+          "features.1.conv.1",
+          "features.2.conv.1.0",
+          "features.3.conv.0.0",
+          "features.3.conv.1.0",
+          "features.3.conv.2",
+          "features.4.conv.1.0",
+          "features.4.conv.2",
+          "features.5.conv.0.0",
+          "features.5.conv.1.0",
+          "features.5.conv.2",
+          "features.6.conv.2",
+          "features.7.conv.0.0",
+          "features.7.conv.1.0",
+          "features.11.conv.1.0",
+          "features.11.conv.2",
+          "features.12.conv.0.0",
+          "features.12.conv.1.0",
+          "features.12.conv.2",
+          "features.13.conv.1.0",
+          "features.13.conv.2",
+          "features.14.conv.0.0",
+          "features.14.conv.2"
+        ],
+        "n_layers": 52
+      },
+      "layer_plan": {
+        "n": 52,
+        "w8_layers": [
+          "features.0.0",
+          "features.1.conv.0.0",
+          "features.1.conv.1",
+          "features.2.conv.1.0",
+          "features.3.conv.0.0",
+          "features.3.conv.1.0",
+          "features.3.conv.2",
+          "features.4.conv.1.0",
+          "features.4.conv.2",
+          "features.5.conv.0.0",
+          "features.5.conv.1.0",
+          "features.5.conv.2",
+          "features.6.conv.2",
+          "features.7.conv.0.0",
+          "features.7.conv.1.0",
+          "features.11.conv.1.0",
+          "features.11.conv.2",
+          "features.12.conv.0.0",
+          "features.12.conv.1.0",
+          "features.12.conv.2",
+          "features.13.conv.1.0",
+          "features.13.conv.2",
+          "features.14.conv.0.0",
+          "features.14.conv.2"
+        ],
+        "counts": [
+          {
+            "bits": 4,
+            "scheme": "per_channel",
+            "group_size": 0,
+            "layers": 28
+          },
+          {
+            "bits": 8,
+            "scheme": "per_channel",
+            "group_size": 0,
+            "layers": 24
+          }
+        ]
+      },
+      "elapsed_s": 1.04
+    }
+  ],
+  "elapsed_s": 11.56
+}

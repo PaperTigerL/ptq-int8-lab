@@ -1,0 +1,186 @@
+{
+  "protocol": "训练权重→BN 折叠→同一 test loader→fp32 基线→逐候选只对 Conv2d 做 QDQ（fc 保持 fp32）→evaluate",
+  "note": "权重-only，未含激活量化；引擎侧真实 W8A8 仍需 GPU 验证。W4 候选不再按 --w-bits 4 二次量化。",
+  "budget_pp": 3.0,
+  "anchors_note": "锚点对照 M2 全量 10k 的旧 build（其 fc 也做了 QDQ；本评测 fc 保持 fp32）。偏差 <=0.5pp 视为采样偏差可接受。",
+  "m2_full10k_anchors": {
+    "resnet50/w8a8": 91.85,
+    "resnet50/w4a8_ch": 88.63,
+    "mobilenet_v2/w8a8": 92.91,
+    "mobilenet_v2/w4a8_ch": 87.65
+  },
+  "screening_n2000": [
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w8a8",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.85,
+      "quant_acc": 92.95,
+      "acc_drop": -0.1,
+      "passed": true,
+      "m2_full10k_anchor": 92.91,
+      "anchor_delta_pp": 0.04,
+      "anchor_within_0.5pp": true
+    },
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w4a8_ch",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.85,
+      "quant_acc": 87.8,
+      "acc_drop": 5.05,
+      "passed": false,
+      "m2_full10k_anchor": 87.65,
+      "anchor_delta_pp": 0.15,
+      "anchor_within_0.5pp": true
+    },
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w4a8_g32",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.85,
+      "quant_acc": 87.8,
+      "acc_drop": 5.05,
+      "passed": false
+    },
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w4a8_mixed_g32",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.85,
+      "quant_acc": 91.25,
+      "acc_drop": 1.6,
+      "passed": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w8a8",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.05,
+      "quant_acc": 92.1,
+      "acc_drop": -0.05,
+      "passed": true,
+      "m2_full10k_anchor": 91.85,
+      "anchor_delta_pp": 0.25,
+      "anchor_within_0.5pp": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w4a8_ch",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.05,
+      "quant_acc": 88.65,
+      "acc_drop": 3.4,
+      "passed": false,
+      "m2_full10k_anchor": 88.63,
+      "anchor_delta_pp": 0.02,
+      "anchor_within_0.5pp": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w4a8_g32",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.05,
+      "quant_acc": 89.1,
+      "acc_drop": 2.95,
+      "passed": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w4a8_mixed_g32",
+      "eval_n": 2000,
+      "n_test": 2000,
+      "fp32_acc": 92.05,
+      "quant_acc": 91.5,
+      "acc_drop": 0.55,
+      "passed": true
+    }
+  ],
+  "full_10k": [
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w8a8",
+      "eval_n": 0,
+      "n_test": 10000,
+      "fp32_acc": 92.87,
+      "quant_acc": 92.91,
+      "acc_drop": -0.04,
+      "passed": true
+    },
+    {
+      "model": "mobilenet_v2",
+      "candidate": "w4a8_mixed_g32",
+      "eval_n": 0,
+      "n_test": 10000,
+      "fp32_acc": 92.87,
+      "quant_acc": 91.2,
+      "acc_drop": 1.67,
+      "passed": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w8a8",
+      "eval_n": 0,
+      "n_test": 10000,
+      "fp32_acc": 91.85,
+      "quant_acc": 91.86,
+      "acc_drop": -0.01,
+      "passed": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w4a8_g32",
+      "eval_n": 0,
+      "n_test": 10000,
+      "fp32_acc": 91.85,
+      "quant_acc": 89.15,
+      "acc_drop": 2.7,
+      "passed": true
+    },
+    {
+      "model": "resnet50",
+      "candidate": "w4a8_mixed_g32",
+      "eval_n": 0,
+      "n_test": 10000,
+      "fp32_acc": 91.85,
+      "quant_acc": 91.45,
+      "acc_drop": 0.4,
+      "passed": true
+    }
+  ],
+  "by_model": {
+    "resnet50": {
+      "full10k_candidates": [
+        "w8a8",
+        "w4a8_g32",
+        "w4a8_mixed_g32"
+      ],
+      "passed": [
+        "w8a8",
+        "w4a8_g32",
+        "w4a8_mixed_g32"
+      ],
+      "best_w4": "w4a8_mixed_g32",
+      "best_w4_acc_drop": 0.4
+    },
+    "mobilenet_v2": {
+      "full10k_candidates": [
+        "w8a8",
+        "w4a8_mixed_g32"
+      ],
+      "passed": [
+        "w8a8",
+        "w4a8_mixed_g32"
+      ],
+      "best_w4": "w4a8_mixed_g32",
+      "best_w4_acc_drop": 1.67
+    }
+  }
+}

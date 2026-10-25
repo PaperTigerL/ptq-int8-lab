@@ -1,0 +1,39 @@
+# 端到端验证：GPU int8 引擎 vs numpy 独立参考实现
+# 生成：bash cpp/verify_e2e.sh（会重新跑 numpy 参考 + GPU 引擎并比对 logits）
+# 数据：2026-10-19 全量 10000张，W8A8，batch=512
+#
+# numpy 参考实现：cpp/ref_e2e.py
+#   im2col / int32 GEMM / per-channel requant / maxpool / 残差 / 拓扑全部自己写，
+#   不用torch 的 conv / matmul / quantized 算子。
+# GPU 引擎：cpp/int8_kernels.cu（自写 CUDA kernel）+ libtorch at::_int_mm（GEMM）
+
+精度对比
+  GPU int8 引擎     86.93%   (8693/10000)
+  numpy 独立参考87.22%   (8722/10000)
+  差                -0.29 pp
+
+logits 比对（10000 × 10 = 100000 个）
+  argmax 一致9310/10000 = 93.1%
+  max|diff|                4.04（logits 量级 ~3）
+
+判据：精度差 ≤ 1.0 pp 且 argmax 一致 ≥ 90%  →  通过
+
+对照：PyTorch fake-quant 的 e2 实验 W8A8 = 87.05%，
+     GPU 引擎 86.93% 落在同一区间，说明量化语义移植正确。
+
+位宽扫描（batch=500，全量 10000）
+  W8A8   86.93%
+  W6A8   86.91%
+  W4A8   85.52%
+
+GEMM 吞吐（int8, torch._int_mm 实测, batch=2000）
+  这些数字被 08-report/scripts/make_figs.py 引用来画「每层 TOPS」图，
+  机读版在 ../08-report/results/gemm_tops.csv
+  l1 (C64)   K=576   N=64   5.07 TOPS
+  l2 (C128)  K=576   N=128  10.19 TOPS
+  l2 (C128)  K=1152  N=128  9.78 TOPS
+  l3 (C256)  K=1152  N=256  9.48 TOPS
+  l3 (C256)  K=2304  N=256  10.41 TOPS
+  l4 (C512)  K=2304  N=512  10.63 TOPS
+  l4 (C512)  K=4608  N=512  10.60 TOPS
+  → N<256 时 tensor core 打不满（N=64 只有 5.07，N=512 有 10.63，差 2.1 倍）

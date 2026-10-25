@@ -1,0 +1,82 @@
+{
+ "protocol": "ORT CPUExecutionProvider, graph_optimization=DISABLE_ALL, 200 张 test_batch.raw[1000:1200]",
+ "rows": [
+  {
+   "tag": "fp32_dec_all",
+   "a": "results/push-20261025/resnet18_cifar10_fp32_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_fp32_dec_all.onnx",
+   "n": 200,
+   "max_diff": 4.76837158203125e-07,
+   "mean_diff": 6.086751818656921e-08,
+   "agree": 200,
+   "acc_a": 86.5,
+   "acc_b": 86.5
+  },
+  {
+   "tag": "fp32_dec_layer3",
+   "a": "results/push-20261025/resnet18_cifar10_fp32_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_fp32_dec_layer3.onnx",
+   "n": 200,
+   "max_diff": 7.152557373046875e-07,
+   "mean_diff": 5.7946192100644114e-08,
+   "agree": 200,
+   "acc_a": 86.5,
+   "acc_b": 86.5
+  },
+  {
+   "tag": "fp32_dec_strand",
+   "a": "results/push-20261025/resnet18_cifar10_fp32_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_fp32_dec_strand.onnx",
+   "n": 200,
+   "max_diff": 4.76837158203125e-07,
+   "mean_diff": 3.0502676963806155e-08,
+   "agree": 200,
+   "acc_a": 86.5,
+   "acc_b": 86.5
+  },
+  {
+   "tag": "fp16_dec_all",
+   "a": "results/push-20261025/resnet18_cifar10_fp16_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_fp16_dec_all.onnx",
+   "n": 200,
+   "max_diff": 0.001953125,
+   "mean_diff": 9.765625e-07,
+   "agree": 200,
+   "acc_a": 86.5,
+   "acc_b": 86.5
+  },
+  {
+   "tag": "int8_dec_all",
+   "a": "results/push-20261025/resnet18_cifar10_int8_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_int8_dec_all.onnx",
+   "n": 200,
+   "max_diff": 0.02531886100769043,
+   "mean_diff": 0.003166535775177181,
+   "agree": 200,
+   "acc_a": 87.0,
+   "acc_b": 87.0
+  },
+  {
+   "tag": "int8_dec_layer3",
+   "a": "results/push-20261025/resnet18_cifar10_int8_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_int8_dec_layer3.onnx",
+   "n": 200,
+   "max_diff": 0.02531886100769043,
+   "mean_diff": 0.0031665330426767467,
+   "agree": 200,
+   "acc_a": 87.0,
+   "acc_b": 87.0
+  },
+  {
+   "tag": "int8_dec_strand",
+   "a": "results/push-20261025/resnet18_cifar10_int8_c1x1.onnx",
+   "b": "results/push-20261025b/resnet18_cifar10_int8_dec_strand.onnx",
+   "n": 200,
+   "max_diff": 0.0,
+   "mean_diff": 0.0,
+   "agree": 200,
+   "acc_a": 87.0,
+   "acc_b": 87.0
+  }
+ ]
+}

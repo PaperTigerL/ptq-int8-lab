@@ -1,0 +1,28 @@
+{
+  "model": "mobilenet_v2",
+  "model_name": "MobileNetV2",
+  "topo_kind": "seq",
+  "w_bits": 8,
+  "a_bits": 8,
+  "fp32_acc": 92.86999999999999,
+  "quant_acc": 92.91,
+  "acc_drop": -0.04000000000000625,
+  "exported": {
+    "path": "results/m2_accept/mobilenet_v2_folded_w8a8.bin",
+    "n_conv": 52,
+    "n_block": 18,
+    "stem_pool": 0,
+    "bytes": 8881044,
+    "selfcheck_maxdiff": 0.0,
+    "topo": "blocks/PTQ2",
+    "stem_idx": 0,
+    "max_convs_per_block": 3
+  },
+  "quant_cfg": {
+    "path": "results/m2_accept/quant_config_mobilenet_v2_w8a8.json",
+    "n_weights": 53,
+    "n_acts": 52
+  },
+  "n_calib_batches": 8,
+  "elapsed_s": 24.35
+}
