@@ -1,7 +1,0 @@
-Cuda device Number:0
- Device name: NVIDIA GeForce GTX 1650 Ti
- Device Memory Clock Rate (KHz): 6001000
- Device Memory Bus Width (bits): 128
- Device Peak Memory Bandwidth (GB/s): 128
- Device Shared Memory Per Block (GB/s): 49152
-CPU int8 | 500 images | acc 86.40% (432/500) | 9.967 ms/img

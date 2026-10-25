@@ -1,6 +1,0 @@
-== 06-gpu-int8 CPU probe（只读，未改 C++） ==
-binary: ../06-gpu-int8/cpp/build/ptq_model_probe
-2026-10-23T00:22:50+08:00
-模型 results/mixed_precision/resnet50_top4_all/resnet50_top4_all.ptq2.bin：n_conv=53 n_block=16 stem_pool=0 grouped=0 depthwise=0 relu6=0 residual2=0 fc=2048->10
-PTQC results/mixed_precision/resnet50_top4_all/calib_resnet50_top4_all.ptqc：n=53（文件 8+8n=432 B）首层 [-1.98947, 2.12649]
-probe_rc=0
