@@ -1,0 +1,11 @@
+== 复现对账：int8 c1x1, batch 512, opt3, skip1000, preboost100 ==
+基准（07 原轮 int8_c1x1_pb）: dataset 0.00744 / steady 0.00790 / acc 87.22%
+  原轮记录读数: dataset 0.00744 / steady 0.00790 / acc 87.22%  (engine resnet18_cifar10_int8_c1x1__b512_o3_default_w1.0_aNone_xNone_d0_f78b02ece7.trt, build 0.0s)
+
+复现档                      dataset        Δ    steady        Δ     acc       Δ   build
+------------------------------------------------------------------------------------
+repro_int8_l2000         0.00731   -1.75%   0.00780   -1.27%   86.80  -0.42pp     247s  PASS
+repro_int8_full9000      0.00725   -2.55%   0.00781   -1.14%   87.22  +0.00pp       0s  PASS
+
+判据: |Δlatency| <= 3% (dataset 与 steady 各自)、|Δacc| <= 0.5 pp
+✓ 复现通过：同一量级，数字可交付

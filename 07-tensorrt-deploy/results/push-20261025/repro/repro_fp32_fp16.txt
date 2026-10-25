@@ -1,0 +1,46 @@
+
+### fp32：折叠后的图已经在上一步生成（results/push-20261025/repro/resnet18_cifar10_fp32_c1x1.onnx），直接冷构建 + 测
+GATE_UTIL=20
+[gpu] 20 %, 887 MiB
+in strides: (3072, 1024, 32, 1) shape: (512, 3, 32, 32)
+  dataset round 1: 0.0243 ms/img  精度 87.16%
+  dataset round 2: 0.0246 ms/img  精度 87.16%
+  dataset round 3: 0.0248 ms/img  精度 87.16%
+  dataset round 4: 0.0251 ms/img  精度 87.16%
+  dataset round 5: 0.0260 ms/img  精度 87.16%
+  steady clocks: {'sm': '1890', 'sm_max': '2100', 'temp': '69.60', 'power': '21.46'} -> {'sm': '1890', 'sm_max': '2100', 'temp': '73.80', 'power': '22.12'}
+  steady: 0.02743 ms/img (min 0.02723)
+== fp32_c1x1_pb b512 opt3 default ws1.0: dataset 0.0243/0.0248 (min/median) ms/img = 477x/468x, acc 87.16%, build 16s, plan 19.7MB
+JSON {"tag": "fp32_c1x1_pb", "onnx": "results/push-20261025/repro/resnet18_cifar10_fp32_c1x1.onnx", "batch": 512, "opt": 3, "tactic": "default", "workspace_gb": 1.0, "aux": null, "tiling": null, "static": true, "direct_io": false, "avg_timing": null, "build_s": 16.2, "plan_mb": 19.7, "engine": "resnet18_cifar10_fp32_c1x1__b512_o3_default_w1.0_aNone_xNone_d0_25cb06a89c.trt", "gpu_util_before": 20, "gpu_mem_before": 887, "dtype": "DataType.FLOAT", "out_dtype": "DataType.FLOAT", "clocks": [{"sm": "1890", "sm_max": "2100", "temp": "72.50", "power": "22.63"}], "acc": 87.16, "dataset_ms": [0.0243, 0.02455, 0.02477, 0.02509, 0.02597], "dataset_median": 0.02477, "dataset_min": 0.0243, "dataset_max": 0.02597, "clocks_steady": [{"sm": "1890", "sm_max": "2100", "temp": "69.60", "power": "21.46"}, {"sm": "1890", "sm_max": "2100", "temp": "73.80", "power": "22.12"}], "steady_ms_batch": [14.0773, 13.9394, 14.0429, 13.9579, 14.0633], "steady_median": 0.02743, "steady_min": 0.02723, "wall_s": 41.2, "gpu_util_after": 90, "x_median": 468}
+
+### fp16：从 ONNX 重新导出 fp16 底稿并折叠（与 07 的图对照 sha256）
+saved resnet18_cifar10_fp16.onnx: 22.4 MB, 49 nodes, input elem_type=10 (Float16)
+results/push-20261025/repro/work/resnet18_cifar10_fp16.onnx -> results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx
+  节点 49 -> 49；折叠 3 个 1x1 空间卷积：
+    /layer4/layer4.0/conv2/Conv: (512, 512, 3, 3) -> (512,512,1,1)
+    /layer4/layer4.1/conv1/Conv: (512, 512, 3, 3) -> (512,512,1,1)
+    /layer4/layer4.1/conv2/Conv: (512, 512, 3, 3) -> (512,512,1,1)
+  文件 9.8 MB（原 22.4 MB）
+dbd1205e9b4427b067b8aaca5940c09f7596e968010c3c3866cbf3018a242c0c  results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx
+dbd1205e9b4427b067b8aaca5940c09f7596e968010c3c3866cbf3018a242c0c  results/push-20261025/resnet18_cifar10_fp16_c1x1.onnx
+
+### fp16：冷构建 opt5 + DIRECT_IO 的 engine 并测（复核 0.01068 / 87.18%）
+GATE_UTIL=19
+[gpu] 19 %, 873 MiB
+DIRECT_IO -> True
+in strides: (3072, 1024, 32, 1) shape: (512, 3, 32, 32)
+  dataset round 1: 0.0131 ms/img  精度 87.18%
+  dataset round 2: 0.0138 ms/img  精度 87.18%
+  dataset round 3: 0.0154 ms/img  精度 87.18%
+  dataset round 4: 0.0156 ms/img  精度 87.18%
+  dataset round 5: 0.0135 ms/img  精度 87.18%
+  steady clocks: {'sm': '1920', 'sm_max': '2100', 'temp': '67.90', 'power': '23.43'} -> {'sm': '1890', 'sm_max': '2100', 'temp': '72.90', 'power': '21.13'}
+  steady: 0.01375 ms/img (min 0.01369)
+== repro_fp16_c1x1_pb b512 opt5 default ws1.0: dataset 0.0131/0.0138 (min/median) ms/img = 884x/839x, acc 87.18%, build 105s, plan 9.9MB
+JSON {"tag": "repro_fp16_c1x1_pb", "onnx": "results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx", "batch": 512, "opt": 5, "tactic": "default", "workspace_gb": 1.0, "aux": null, "tiling": null, "static": true, "direct_io": true, "avg_timing": null, "build_s": 105.0, "plan_mb": 9.9, "engine": "resnet18_cifar10_fp16_c1x1__b512_o5_default_w1.0_aNone_xNone_d1_1c2d4767fb.trt", "gpu_util_before": 19, "gpu_mem_before": 873, "dtype": "DataType.HALF", "out_dtype": "DataType.HALF", "clocks": [{"sm": "1905", "sm_max": "2100", "temp": "70.00", "power": "27.26"}], "acc": 87.18, "dataset_ms": [0.01312, 0.01382, 0.01538, 0.01562, 0.01345], "dataset_median": 0.01382, "dataset_min": 0.01312, "dataset_max": 0.01562, "clocks_steady": [{"sm": "1920", "sm_max": "2100", "temp": "67.90", "power": "23.43"}, {"sm": "1890", "sm_max": "2100", "temp": "72.90", "power": "21.13"}], "steady_ms_batch": [7.234, 7.0377, 7.0325, 7.0118, 7.0751], "steady_median": 0.01375, "steady_min": 0.01369, "wall_s": 126.2, "gpu_util_after": 99, "x_median": 839}
+
+### SHA256（本轮新增的 engine / 图）
+1cb6e67f62bcecc62ecb98d5c4daf2a62b641d3e70c9e4eb06d31e87c4fd7e42  results/push-20261025/repro/engines/resnet18_cifar10_fp16_c1x1__b512_o5_default_w1.0_aNone_xNone_d1_1c2d4767fb.trt
+896ed4ee883bb5e9fd6b07cf66566996cdb4fac2a77cd87c9ae761b10dc15da1  results/push-20261025/repro/engines/resnet18_cifar10_fp32_c1x1__b512_o3_default_w1.0_aNone_xNone_d0_25cb06a89c.trt
+b463c574317de5a8f699e48c02b9314d158f393af7d7dbaa556da644fa928498  results/push-20261025/repro/engines/resnet18_cifar10_int8_c1x1__b512_o3_default_w1.0_aNone_xNone_d0_78b88e1614.trt
+dbd1205e9b4427b067b8aaca5940c09f7596e968010c3c3866cbf3018a242c0c  results/push-20261025/repro/resnet18_cifar10_fp16_c1x1.onnx

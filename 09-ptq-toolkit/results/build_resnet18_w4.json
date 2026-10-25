@@ -1,0 +1,25 @@
+{
+  "model": "resnet18",
+  "model_name": "ResNet-18",
+  "topo_kind": "blocks",
+  "w_bits": 4,
+  "a_bits": 8,
+  "fp32_acc": 87.16000000000001,
+  "quant_acc": 85.3,
+  "acc_drop": 1.8600000000000136,
+  "exported": {
+    "path": "results/resnet18_folded_w4a8.bin",
+    "n_conv": 20,
+    "n_block": 8,
+    "stem_pool": 1,
+    "bytes": 44708240,
+    "selfcheck_maxdiff": 0.0
+  },
+  "quant_cfg": {
+    "path": "results/quant_config_resnet18_w4a8.json",
+    "n_weights": 21,
+    "n_acts": 20
+  },
+  "n_calib_batches": 2,
+  "elapsed_s": 40.13
+}

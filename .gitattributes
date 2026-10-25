@@ -1,0 +1,27 @@
+# =============================================================
+#  行尾统一 —— 这个文件的优先级高于 core.autocrlf，跟每台机器无关
+#
+#  为什么必须有：
+#    Windows 上的 git 默认把文本文件的 LF 换成 CRLF。但本项目的
+#    check / tools/* / setup.sh / run.sh 都是 bash 脚本，CRLF 会让
+#    bash 直接报 $'{\r' 之类的错，shebang 也认不出来（这个坑已经踩过）。
+#    所以：仓库里一律存 LF，检出时也保持 LF。
+#
+#    .bat 例外 —— cmd.exe 对 LF 兼容性不稳，保持 CRLF。
+# =============================================================
+
+# 默认：所有文本文件统一 LF
+* text=auto eol=lf
+
+# Windows 批处理必须 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 真正的二进制，别做任何转换
+*.exe  binary
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+*.pt   binary
+*.pth  binary
+*.gguf binary

@@ -1,0 +1,95 @@
+{
+  "schema": "ptq/r50-stage2-paused@1",
+  "paused_at": "2026-10-23T10:13:18+08:00",
+  "handoff": "H-20261023-007",
+  "task": "T-20261021-11",
+  "status": "paused_by_user",
+  "reason": "用户要求立即暂停：本次把旧 stage2 协议（ep26 起点、10ep）当作项目优化执行，方向错误；未先确认优化目标。",
+  "start_checkpoint": {
+    "path": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_resnet50_ep26.pth",
+    "test_acc": 84.52,
+    "sha256": "bcf561f26a2adff8040e8d965e2b0314e6da8cea987f4360dc25df377d279580",
+    "m4_eval": "84.52 delta=+0.00pp, exit 0"
+  },
+  "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch; init_from ep26; lr=0.003; batch=64; aug+ls",
+  "epochs_completed": 7,
+  "epochs_target": 10,
+  "rows": [
+    {
+      "epoch": 1,
+      "train_acc": 83.114,
+      "test_acc": 85.16,
+      "seconds": 237.11,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 2,
+      "train_acc": 86.398,
+      "test_acc": 85.68,
+      "seconds": 270.22,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 3,
+      "train_acc": 87.636,
+      "test_acc": 85.62,
+      "seconds": 378.5,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 4,
+      "train_acc": 88.94,
+      "test_acc": 85.88,
+      "seconds": 571.92,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 5,
+      "train_acc": 90.046,
+      "test_acc": 86.61,
+      "seconds": 494.44,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 6,
+      "train_acc": 91.196,
+      "test_acc": 87.71,
+      "seconds": 415.43,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    },
+    {
+      "epoch": 7,
+      "train_acc": 92.18,
+      "test_acc": 89.0,
+      "seconds": 381.65,
+      "peak_mem_mib": 2078.2,
+      "protocol": "cifar10-full-50k-aug-ls0.1-wd0.0005-cos10-scratch"
+    }
+  ],
+  "last_epoch_file": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_resnet50_r50aug10_ep7.pth",
+  "not_done": [
+    "ep8-ep10 训练",
+    "ep10 全量 10k 独立复评",
+    "r50aug10 链审计",
+    "报告/relay/handoff complete"
+  ],
+  "gpu": {
+    "before_snapshot": "results/r50_stage2/nvidia_smi_before.txt",
+    "after_abort_snapshot": "results/r50_stage2/nvidia_smi_after_abort.txt",
+    "process_pid": 419,
+    "after": "No running processes found; finetune procs none",
+    "peak_reported_mib": 2078.2
+  },
+  "artifacts": [
+    "results/finetune_r50_aug10.log",
+    "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/history_resnet50_r50aug10.json",
+    "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_resnet50_r50aug10_ep1..ep7.pth"
+  ],
+  "resume_policy": "不自动恢复；需明确项目优化目标与新授权后再启动"
+}

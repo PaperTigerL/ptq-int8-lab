@@ -1,0 +1,14 @@
+# PTQ 实验平台依赖（WSL / Ubuntu 24.04 实测版本）
+# 安装：
+#   ~/pyenv-torch/bin/python -m pip install -r requirements.txt
+#
+# ⚠️ torch 的 CUDA 版本必须和本机驱动匹配。本机实测 torch 2.6.0+cu124 可用。
+#    换机器时先 nvidia-smi 看驱动支持的 CUDA 上限，再去 pytorch.org 取对应轮子。
+
+torch==2.6.0
+torchvision==0.21.0
+
+# 画论文图（tools/plot.py）
+matplotlib>=3.7
+
+# 汇总表与 JSON 落盘只用标准库，不需要额外包

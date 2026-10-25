@@ -1,0 +1,377 @@
+{
+  "schema": "ptq/layer-plan@1",
+  "model": "mobilenet_v2",
+  "plan": "top4_all",
+  "created": "2026-10-23T08:23:36+0800",
+  "layer_order": "named_modules() 过滤 nn.Conv2d 的定义顺序",
+  "counts": [
+    {
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32,
+      "layers": 48
+    },
+    {
+      "bits": 8,
+      "scheme": "per_channel",
+      "group_size": 0,
+      "layers": 4
+    }
+  ],
+  "w8_layers": [
+    "features.1.conv.0.0",
+    "features.1.conv.1",
+    "features.2.conv.2",
+    "features.3.conv.2"
+  ],
+  "layers": [
+    {
+      "name": "features.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.1.conv.0.0",
+      "bits": 8,
+      "scheme": "per_channel"
+    },
+    {
+      "name": "features.1.conv.1",
+      "bits": 8,
+      "scheme": "per_channel"
+    },
+    {
+      "name": "features.2.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.2.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.2.conv.2",
+      "bits": 8,
+      "scheme": "per_channel"
+    },
+    {
+      "name": "features.3.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.3.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.3.conv.2",
+      "bits": 8,
+      "scheme": "per_channel"
+    },
+    {
+      "name": "features.4.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.4.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.4.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.5.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.5.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.5.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.6.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.6.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.6.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.7.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.7.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.7.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.8.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.8.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.8.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.9.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.9.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.9.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.10.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.10.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.10.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.11.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.11.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.11.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.12.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.12.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.12.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.13.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.13.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.13.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.14.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.14.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.14.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.15.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.15.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.15.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.16.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.16.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.16.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.17.conv.0.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.17.conv.1.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.17.conv.2",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    },
+    {
+      "name": "features.18.0",
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32
+    }
+  ],
+  "evidence": {
+    "source": "results/i2/layer_sensitivity_mobilenet_v2.json",
+    "plan": "top4_all",
+    "n_w8": 4,
+    "n_w4": 48,
+    "drop_pp": 2.7344,
+    "acc": 94.9219,
+    "measured_on": null,
+    "selection_basis": "target 不可达；budget<=3.0pp, min W8 layers",
+    "w8_layers": [
+      "features.1.conv.0.0",
+      "features.1.conv.1",
+      "features.2.conv.2",
+      "features.3.conv.2"
+    ],
+    "candidate": {
+      "key": "top4_all",
+      "display": "显式 per-layer 混合精度（W8 4 层 / 其余 W4）",
+      "default": {
+        "bits": 4,
+        "scheme": "per_group",
+        "group_size": 32
+      },
+      "protect_first": false,
+      "protect_last": false,
+      "protect_downsample": false,
+      "protect_depthwise": false,
+      "protected": {
+        "bits": 8,
+        "scheme": "per_channel"
+      },
+      "w8_layers": [
+        "features.1.conv.0.0",
+        "features.1.conv.1",
+        "features.2.conv.2",
+        "features.3.conv.2"
+      ],
+      "note": "target 不可达；budget<=3.0pp, min W8 layers"
+    }
+  }
+}

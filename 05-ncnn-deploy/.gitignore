@@ -1,0 +1,15 @@
+# 大文件与可再生产物：全部能用 scripts/run_pipeline.sh 重新生成，不进 git
+models/*.onnx
+models/*.bin
+models/*.log
+calib/
+data_raw/
+cpp/build/
+
+# 但 param / table 是纯文本、体量小、且是「配置」本身，要进 git
+!models/*.param
+!tables/*.table
+
+# 嵌套的临时/探针产物目录（models/_bridge/ 这类）。
+# 上面的 models/*.bin 只匹配一层，嵌套目录里的文件匹配不到。
+models/_*/

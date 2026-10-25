@@ -1,0 +1,197 @@
+{
+  "package": "results/mixed_precision/resnet50_top4_all",
+  "ok": true,
+  "checks": [
+    {
+      "name": "manifest schema",
+      "ok": true,
+      "detail": "ptq/mixed-package@1"
+    },
+    {
+      "name": "weights 存在",
+      "ok": true,
+      "detail": "resnet50_top4_all.ptq2.bin"
+    },
+    {
+      "name": "calib 存在",
+      "ok": true,
+      "detail": "calib_resnet50_top4_all.ptqc"
+    },
+    {
+      "name": "quant_config 存在",
+      "ok": true,
+      "detail": "quant_config_resnet50_top4_all.json"
+    },
+    {
+      "name": "layer_plan 存在",
+      "ok": true,
+      "detail": "layer_plan_resnet50_top4_all.json"
+    },
+    {
+      "name": "build 存在",
+      "ok": true,
+      "detail": "build_resnet50_top4_all.json"
+    },
+    {
+      "name": "weights 字节数",
+      "ok": true,
+      "detail": "93979660 vs 93979660"
+    },
+    {
+      "name": "weights SHA256",
+      "ok": true,
+      "detail": "3b144e22dd35"
+    },
+    {
+      "name": "calib 字节数",
+      "ok": true,
+      "detail": "432 vs 432"
+    },
+    {
+      "name": "calib SHA256",
+      "ok": true,
+      "detail": "c278ad0f3e80"
+    },
+    {
+      "name": "quant_config 字节数",
+      "ok": true,
+      "detail": "24116508 vs 24116508"
+    },
+    {
+      "name": "quant_config SHA256",
+      "ok": true,
+      "detail": "10227ddaa63b"
+    },
+    {
+      "name": "layer_plan 字节数",
+      "ok": true,
+      "detail": "7477 vs 7477"
+    },
+    {
+      "name": "layer_plan SHA256",
+      "ok": true,
+      "detail": "2f9641462e93"
+    },
+    {
+      "name": "build 字节数",
+      "ok": true,
+      "detail": "2103 vs 2103"
+    },
+    {
+      "name": "build SHA256",
+      "ok": true,
+      "detail": "38931ae8ae5c"
+    },
+    {
+      "name": "layer_plan schema",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "layer_plan 非空",
+      "ok": true,
+      "detail": "53 层"
+    },
+    {
+      "name": "PTQ2 n_conv == plan 层数",
+      "ok": true,
+      "detail": "53 vs 53"
+    },
+    {
+      "name": "PTQC 层数 == PTQ2 n_conv",
+      "ok": true,
+      "detail": "53 vs 53"
+    },
+    {
+      "name": "PTQC 文件长度 8+8n",
+      "ok": true,
+      "detail": "432 B"
+    },
+    {
+      "name": "PTQC 有限且 lo<=hi",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest n_conv",
+      "ok": true,
+      "detail": "53 vs 53"
+    },
+    {
+      "name": "quant_config 权重数 == conv 数",
+      "ok": true,
+      "detail": "53 vs 53"
+    },
+    {
+      "name": "quant_config 键顺序 == plan 顺序",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest w8_layers == plan",
+      "ok": true,
+      "detail": "4 vs 4"
+    },
+    {
+      "name": "counts 一致",
+      "ok": true,
+      "detail": "[{\"bits\": 4, \"scheme\": \"per_group\", \"group_size\": 32, \"layers\": 49}, {\"bits\": 8, \"scheme\": \"per_channel\", \"group_size\": 0, \"layers\": 4}]"
+    },
+    {
+      "name": "逐层 bits/scheme/group_size == layer_plan",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "scale 形状与 scheme 一致",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "权重落在声明的 bits 网格",
+      "ok": true,
+      "detail": "max|err|=5.59e-08，码字 [-127, 127]"
+    },
+    {
+      "name": "码字范围合法",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "拓扑自检 max|diff| < 1e-4",
+      "ok": true,
+      "detail": "0.0"
+    }
+  ],
+  "n_conv": 53,
+  "n_block": 16,
+  "n_w8": 4,
+  "n_w4": 49,
+  "w8_layers": [
+    "conv1",
+    "layer1.0.conv1",
+    "layer1.0.conv3",
+    "layer1.1.conv1"
+  ],
+  "counts": [
+    {
+      "bits": 4,
+      "scheme": "per_group",
+      "group_size": 32,
+      "layers": 49
+    },
+    {
+      "bits": 8,
+      "scheme": "per_channel",
+      "group_size": 0,
+      "layers": 4
+    }
+  ],
+  "sha256": {
+    "weights": "3b144e22dd35c4929b44c842dba8f9143ba63a0866645bfaff8ef993fb9c4645",
+    "calib": "c278ad0f3e800234e9e81f326422161264d6f710c7cb4a6525d990a3467547ac",
+    "quant_config": "10227ddaa63b38a6b3cc91f744e0cd3ddb265dae938f4fd2e5c72c812bb7af0f",
+    "layer_plan": "2f9641462e93787b27477d3b22271f660dc565ada00709c57ff9610dcfaf4b38",
+    "build": "38931ae8ae5c2ca5e090e57e7bf007eee154a3eab7cb8b6da7133f129b093f24"
+  }
+}

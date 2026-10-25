@@ -1,0 +1,28 @@
+{
+  "model": "resnet50",
+  "model_name": "ResNet-50",
+  "topo_kind": "seq",
+  "w_bits": 4,
+  "a_bits": 8,
+  "fp32_acc": 91.85,
+  "quant_acc": 88.63,
+  "acc_drop": 3.219999999999999,
+  "exported": {
+    "path": "results/m2_accept/resnet50_folded_w4a8.bin",
+    "n_conv": 53,
+    "n_block": 16,
+    "stem_pool": 0,
+    "bytes": 93979660,
+    "selfcheck_maxdiff": 0.0,
+    "topo": "blocks/PTQ2",
+    "stem_idx": 0,
+    "max_convs_per_block": 3
+  },
+  "quant_cfg": {
+    "path": "results/m2_accept/quant_config_resnet50_w4a8.json",
+    "n_weights": 54,
+    "n_acts": 53
+  },
+  "n_calib_batches": 8,
+  "elapsed_s": 62.58
+}

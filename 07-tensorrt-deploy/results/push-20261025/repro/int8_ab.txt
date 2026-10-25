@@ -1,0 +1,32 @@
+### A1 原轮 engine（f78b02ec）
+  dataset round 1: 0.0085 ms/img  精度 87.22%
+  dataset round 2: 0.0095 ms/img  精度 87.22%
+  dataset round 3: 0.0095 ms/img  精度 87.22%
+  dataset round 4: 0.0088 ms/img  精度 87.22%
+  dataset round 5: 0.0093 ms/img  精度 87.22%
+  steady: 0.00912 ms/img (min 0.00900)
+== ab_orig_a1 b512 opt3 default ws1.0: dataset 0.0085/0.0093 (min/median) ms/img = 1363x/1242x, acc 87.22%, build 0s, plan 5.3MB
+### B1 复现 build2（78b88e16）
+  dataset round 1: 0.0090 ms/img  精度 87.22%
+  dataset round 2: 0.0093 ms/img  精度 87.22%
+  dataset round 3: 0.0092 ms/img  精度 87.22%
+  dataset round 4: 0.0091 ms/img  精度 87.22%
+  dataset round 5: 0.0092 ms/img  精度 87.22%
+  steady: 0.00911 ms/img (min 0.00907)
+== ab_repro_b1 b512 opt3 default ws1.0: dataset 0.0090/0.0092 (min/median) ms/img = 1290x/1268x, acc 87.22%, build 0s, plan 5.3MB
+### A2 原轮 engine 再测一次
+  dataset round 1: 0.0085 ms/img  精度 87.22%
+  dataset round 2: 0.0084 ms/img  精度 87.22%
+  dataset round 3: 0.0079 ms/img  精度 87.22%
+  dataset round 4: 0.0087 ms/img  精度 87.22%
+  dataset round 5: 0.0087 ms/img  精度 87.22%
+  steady: 0.00878 ms/img (min 0.00868)
+== ab_orig_a2 b512 opt3 default ws1.0: dataset 0.0079/0.0084 (min/median) ms/img = 1472x/1373x, acc 87.22%, build 0s, plan 5.3MB
+### B2 复现 build2 再测一次
+  dataset round 1: 0.0080 ms/img  精度 87.22%
+  dataset round 2: 0.0083 ms/img  精度 87.22%
+  dataset round 3: 0.0087 ms/img  精度 87.22%
+  dataset round 4: 0.0087 ms/img  精度 87.22%
+  dataset round 5: 0.0092 ms/img  精度 87.22%
+  steady: 0.00912 ms/img (min 0.00903)
+== ab_repro_b2 b512 opt3 default ws1.0: dataset 0.0080/0.0087 (min/median) ms/img = 1450x/1329x, acc 87.22%, build 0s, plan 5.3MB

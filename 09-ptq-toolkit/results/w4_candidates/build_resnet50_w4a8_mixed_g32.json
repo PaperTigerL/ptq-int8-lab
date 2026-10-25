@@ -1,0 +1,74 @@
+{
+  "model": "resnet50",
+  "model_name": "ResNet-50",
+  "candidate": "w4a8_mixed_g32",
+  "display": "W4A8 per-group 32 + 敏感层 W8",
+  "n_conv": 53,
+  "n_block": 16,
+  "exported": {
+    "path": "results/w4_candidates/resnet50_w4a8_mixed_g32.ptq2.bin",
+    "n_conv": 53,
+    "n_block": 16,
+    "stem_pool": 0,
+    "bytes": 93979660,
+    "selfcheck_maxdiff": 0.0,
+    "topo": "blocks/PTQ2",
+    "stem_idx": 0,
+    "max_convs_per_block": 3
+  },
+  "quant_cfg": {
+    "path": "results/w4_candidates/quant_config_resnet50_w4a8_mixed_g32.json",
+    "n_weights": 53,
+    "n_acts": 53
+  },
+  "ptqc": {
+    "path": "results/w4_candidates/calib_resnet50_w4a8_mixed_g32.ptqc",
+    "n": 53,
+    "bytes": 432,
+    "n_conv": 53,
+    "first_layer": "conv1",
+    "last_layer": "layer4.2.conv3"
+  },
+  "plan": {
+    "counts": [
+      {
+        "bits": 4,
+        "scheme": "per_group",
+        "group_size": 32,
+        "layers": 47
+      },
+      {
+        "bits": 8,
+        "scheme": "per_channel",
+        "group_size": 0,
+        "layers": 6
+      }
+    ],
+    "w8_layers": [
+      "conv1",
+      "layer1.0.downsample.0",
+      "layer2.0.downsample.0",
+      "layer3.0.downsample.0",
+      "layer4.0.downsample.0",
+      "layer4.2.conv3"
+    ],
+    "n_layers": 53
+  },
+  "ptq2_info": {
+    "bytes": 93979660,
+    "n_conv": 53,
+    "n_block": 16,
+    "ncp": 3,
+    "stem_pool": 0,
+    "n_grouped": 0,
+    "n_depthwise": 0,
+    "n_relu1": 33,
+    "n_relu6": 0,
+    "n_relu0": 20,
+    "n_residual1": 16,
+    "n_residual2": 0,
+    "n_residual0": 0
+  },
+  "elapsed_s": 2.53,
+  "accuracy": "未评测（本阶段 CPU-only，只做导出校验）"
+}

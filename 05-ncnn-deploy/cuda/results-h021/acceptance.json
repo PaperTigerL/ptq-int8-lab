@@ -1,0 +1,451 @@
+{
+  "schema": "ncnn-cuda/acceptance@1",
+  "task": "H-20261023-021",
+  "timestamp": "2026-10-23T19:18:11+0800",
+  "model": "resnet18_cifar10_int8_old",
+  "data": "CIFAR-10 test_batch.raw 前 2000 张（与 CPU int8 基线同批）",
+  "device": "GTX 1650 Ti / WSL CUDA 12.4",
+  "fork_commit": "8918acf",
+  "fork_commits": [
+    "4cc02aa",
+    "fc73aa4",
+    "1aa392c",
+    "b1a94f0",
+    "8918acf"
+  ],
+  "build_dir": "/home/user/ncnn-cuda/build-ptq",
+  "harness": {
+    "source": "05-ncnn-deploy/cuda/ncnn_cuda_eval_2000c.cpp",
+    "base": "ncnn_cuda_eval_h015.cpp（release-before-reset；reset 在有活块时自动 defer）",
+    "single_process": "blob arena 1280MB 单调增长、地址全程不复用；work arena 64MB 每图回退（实测 work 用量 3.8MB）；batch 64/256",
+    "chunked_cross_check": "前 2000 张拆成 4 个 500 张、每个独立进程 --no-reset；两轮",
+    "why": "该 fork 的 blob arena 一旦跨图复用地址就会读回上一张的数据（见 reset_investigation）。两种口径都保证地址不复用，结果一致。"
+  },
+  "cpu": {
+    "int8": {
+      "acc": 86.95,
+      "correct": 1739,
+      "n": 2000,
+      "ms_per_img": 10.182,
+      "log": "results-h021/cpu_int8_2000.txt"
+    },
+    "fp32": {
+      "acc": 87.2,
+      "correct": 1744,
+      "n": 2000,
+      "ms_per_img": 12.262,
+      "log": "results-h021/cpu_fp32_2000.txt"
+    }
+  },
+  "single_process_runs": [
+    {
+      "acc": 86.95,
+      "correct": 1739,
+      "n": 2000,
+      "gpu_ms_per_img": 3.8879,
+      "wall_ms_per_img": 4.0058,
+      "gpu_mem_mb": 3158.9,
+      "blob_arena_used_mb": 793.2,
+      "work_arena_used_mb": 3.8,
+      "exit_code": 0,
+      "path": "default",
+      "batch": 256,
+      "log": "results-h021/single_default_b256.log",
+      "delta_vs_cpu_int8_pp": 0.0
+    },
+    {
+      "acc": 86.95,
+      "correct": 1739,
+      "n": 2000,
+      "gpu_ms_per_img": 3.9259,
+      "wall_ms_per_img": 4.0409,
+      "gpu_mem_mb": 3158.9,
+      "blob_arena_used_mb": 793.2,
+      "work_arena_used_mb": 3.8,
+      "exit_code": 0,
+      "path": "default",
+      "batch": 64,
+      "log": "results-h021/single_default_b64.log",
+      "delta_vs_cpu_int8_pp": 0.0
+    },
+    {
+      "acc": 86.95,
+      "correct": 1739,
+      "n": 2000,
+      "gpu_ms_per_img": 16.074,
+      "wall_ms_per_img": 16.1962,
+      "gpu_mem_mb": 3158.9,
+      "blob_arena_used_mb": 803.1,
+      "work_arena_used_mb": 3.8,
+      "exit_code": 0,
+      "path": "fallback",
+      "batch": 256,
+      "log": "results-h021/single_fallback_b256.log",
+      "delta_vs_cpu_int8_pp": 0.0
+    },
+    {
+      "acc": 86.95,
+      "correct": 1739,
+      "n": 2000,
+      "gpu_ms_per_img": 15.9404,
+      "wall_ms_per_img": 16.041,
+      "gpu_mem_mb": 3158.9,
+      "blob_arena_used_mb": 803.1,
+      "work_arena_used_mb": 3.8,
+      "exit_code": 0,
+      "path": "fallback",
+      "batch": 64,
+      "log": "results-h021/single_fallback_b64.log",
+      "delta_vs_cpu_int8_pp": 0.0
+    }
+  ],
+  "chunked_cross_check": [
+    {
+      "path": "default",
+      "batch": 64,
+      "pass": 1,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 4.0771,
+      "gpu_ms_per_img_min": 3.8132,
+      "gpu_ms_per_img_max": 4.3921,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 4.0174,
+          "log": "results-h021/default_b64_c0_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 4.0856,
+          "log": "results-h021/default_b64_c1_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 3.8132,
+          "log": "results-h021/default_b64_c2_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 4.3921,
+          "log": "results-h021/default_b64_c3_p1.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "default",
+      "batch": 64,
+      "pass": 2,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 3.8969,
+      "gpu_ms_per_img_min": 3.7598,
+      "gpu_ms_per_img_max": 4.0251,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 3.8232,
+          "log": "results-h021/default_b64_c0_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 3.7598,
+          "log": "results-h021/default_b64_c1_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 4.0251,
+          "log": "results-h021/default_b64_c2_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 3.9797,
+          "log": "results-h021/default_b64_c3_p2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "default",
+      "batch": 256,
+      "pass": 1,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 4.1345,
+      "gpu_ms_per_img_min": 3.9032,
+      "gpu_ms_per_img_max": 4.4957,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 4.0746,
+          "log": "results-h021/default_b256_c0_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 3.9032,
+          "log": "results-h021/default_b256_c1_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 4.4957,
+          "log": "results-h021/default_b256_c2_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 4.0643,
+          "log": "results-h021/default_b256_c3_p1.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "default",
+      "batch": 256,
+      "pass": 2,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 4.0248,
+      "gpu_ms_per_img_min": 3.986,
+      "gpu_ms_per_img_max": 4.061,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 4.0489,
+          "log": "results-h021/default_b256_c0_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 3.986,
+          "log": "results-h021/default_b256_c1_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 4.0035,
+          "log": "results-h021/default_b256_c2_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 4.061,
+          "log": "results-h021/default_b256_c3_p2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "fallback",
+      "batch": 64,
+      "pass": 1,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 15.9703,
+      "gpu_ms_per_img_min": 15.7816,
+      "gpu_ms_per_img_max": 16.1941,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 16.0478,
+          "log": "results-h021/fallback_b64_c0_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 15.7816,
+          "log": "results-h021/fallback_b64_c1_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 16.1941,
+          "log": "results-h021/fallback_b64_c2_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 15.8577,
+          "log": "results-h021/fallback_b64_c3_p1.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "fallback",
+      "batch": 64,
+      "pass": 2,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 15.9534,
+      "gpu_ms_per_img_min": 15.9009,
+      "gpu_ms_per_img_max": 16.0171,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 15.9893,
+          "log": "results-h021/fallback_b64_c0_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 15.9009,
+          "log": "results-h021/fallback_b64_c1_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 15.9063,
+          "log": "results-h021/fallback_b64_c2_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 16.0171,
+          "log": "results-h021/fallback_b64_c3_p2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "fallback",
+      "batch": 256,
+      "pass": 1,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 15.9776,
+      "gpu_ms_per_img_min": 15.873,
+      "gpu_ms_per_img_max": 16.0349,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 15.9878,
+          "log": "results-h021/fallback_b256_c0_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 15.873,
+          "log": "results-h021/fallback_b256_c1_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 16.0349,
+          "log": "results-h021/fallback_b256_c2_p1.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 16.0146,
+          "log": "results-h021/fallback_b256_c3_p1.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "fallback",
+      "batch": 256,
+      "pass": 2,
+      "n": 2000,
+      "correct": 1739,
+      "acc": 86.95,
+      "gpu_ms_per_img_mean": 15.8817,
+      "gpu_ms_per_img_min": 15.8482,
+      "gpu_ms_per_img_max": 15.9242,
+      "chunks": [
+        {
+          "chunk": 0,
+          "correct": 433,
+          "gpu_ms_per_img": 15.8988,
+          "log": "results-h021/fallback_b256_c0_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 1,
+          "correct": 439,
+          "gpu_ms_per_img": 15.8555,
+          "log": "results-h021/fallback_b256_c1_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 2,
+          "correct": 432,
+          "gpu_ms_per_img": 15.8482,
+          "log": "results-h021/fallback_b256_c2_p2.log",
+          "exit_code": 0
+        },
+        {
+          "chunk": 3,
+          "correct": 435,
+          "gpu_ms_per_img": 15.9242,
+          "log": "results-h021/fallback_b256_c3_p2.log",
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "acceptance": {
+    "threshold_pp": 0.3,
+    "metric": "GPU int8 top-1 vs CPU int8 top-1（同模型、同 2000 张）",
+    "max_abs_delta_single_pp": 0.0,
+    "max_abs_delta_chunk_pp": 0.0,
+    "pass": true
+  },
+  "reset_investigation": {
+    "evidence": "results-h021/reset_alias_evidence.md",
+    "summary": "blob arena 每图 reset 复用时，20 张准确率 55%（no-reset 100%）；reset_every=2/4/8 分别为 80/90/100%；只 reset workspace 时 100%。首个分叉出现在第一次地址复用后的第 2 张图（logits FNV 哈希不同）。deferred=0、stale=0，不是陈旧句柄释放；复用地址被未跟踪的读者读到。验收因此改为单调 blob arena，绝不 reset。",
+    "reset_every_sweep": {
+      "1": 55.0,
+      "2": 80.0,
+      "4": 90.0,
+      "8": 100.0,
+      "16": 100.0,
+      "no_reset": 100.0
+    }
+  }
+}

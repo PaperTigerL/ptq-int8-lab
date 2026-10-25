@@ -1,0 +1,26 @@
+{
+  "model": "mobilenet_v2",
+  "weights": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth",
+  "eval_n": 512,
+  "device": "cpu",
+  "fp32_acc": 91.7969,
+  "protocol": "训练权重→BN 折叠→同一 test 前 512 张→逐层 QDQ（fc fp32）→evaluate；不含激活量化",
+  "rows": [
+    {
+      "candidate": "all_w4_per_channel",
+      "acc": 85.9375,
+      "drop": 5.8594
+    },
+    {
+      "candidate": "all_w4_per_group32",
+      "acc": 82.0312,
+      "drop": 9.7656
+    },
+    {
+      "candidate": "top4_all",
+      "acc": 89.8438,
+      "drop": 1.9531
+    }
+  ],
+  "note": "W8 掉点见 ptq eval 的 m2_20261023 结果；本脚本只做混合精度对比。"
+}

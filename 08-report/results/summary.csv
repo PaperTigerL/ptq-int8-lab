@@ -1,0 +1,8 @@
+route,ms_per_img_median,ms_per_img_steady,speedup_median,speedup_steady,accuracy_pct,kind,protocol,source,note
+ncnn CPU fp32,11.60000,,1.0,,,baseline,"single-run, 4 threads",05-ncnn-deploy/README.md:473,10000 张，CPU 4 线程
+ncnn CPU int8,3.40000,,3.4,,,cpu,"single-run, 4 threads",04-libtorch-cuda/README.md:72,
+libtorch C++,0.07840,,148.0,,87.16,gpu,"batch512, 稳定值",04-libtorch-cuda/README.md:74,
+ncnn CUDA fork,14.89000,,0.8,,88.0,gpu,single-run（唯一精度正确的配置）,05-ncnn-deploy/cuda/README.md:12,失败路线：比 CPU 还慢
+TRT fp32,0.02477,0.02743,468.3,422.9,87.16,gpu-push,preboost(100)+steady b512,07-tensorrt-deploy/results/push-20261025/repro/bench.jsonl:fp32_c1x1_pb,"build 16.2s, plan 19.7MB"
+TRT fp16,0.01068,0.01222,1086.1,949.3,87.18,gpu-push,preboost(100)+steady b512,07-tensorrt-deploy/results/push-20261025/bench.jsonl:fp16c_o5_dio_pb,"build 76.6s, plan 9.9MB"
+TRT int8,0.00744,0.00790,1559.1,1468.4,87.22,gpu-push,preboost(100)+steady b512,07-tensorrt-deploy/results/push-20261025/bench.jsonl:int8_c1x1_pb,"build 0.0s, plan 5.3MB"

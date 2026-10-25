@@ -1,0 +1,122 @@
+{
+  "schema": "ptq/mixed-package@1",
+  "model": "mobilenet_v2",
+  "plan": "w4pc_w8top24",
+  "created": "2026-10-25T15:00:34+0800",
+  "note": "PTQ2 是 fp32 容器：W4 只改变权重数值（QDQ），不改变存储大小；bits/scheme 元数据在 quant_config + layer_plan 里。",
+  "source_weights": {
+    "path": "/mnt/d/WorkBuddy/ShowBro/paper-code/ckpts/ckpt_mobilenet_v2_mv2img10_ep9.pth",
+    "bytes": 18197062,
+    "sha256": "62d7253941d9ce5988d0916838af0de7b3fd938fb34345f6f031a64d55e74f3e"
+  },
+  "evidence": {
+    "source": "results/i3/plan_mobilenet_v2_w4pc_w8top24.json",
+    "plan": "w4pc_w8top24",
+    "n_w8": 24,
+    "n_w4": 28,
+    "drop_pp": 0.3906,
+    "acc": 91.4062,
+    "measured_on": null,
+    "selection_basis": "measured, not estimated",
+    "w4_group_size": 0,
+    "w4_scheme": "per_channel",
+    "w8_layers": [
+      "features.1.conv.0.0",
+      "features.3.conv.2",
+      "features.0.0",
+      "features.4.conv.2",
+      "features.2.conv.1.0",
+      "features.1.conv.1",
+      "features.13.conv.2",
+      "features.12.conv.2",
+      "features.12.conv.0.0",
+      "features.4.conv.1.0",
+      "features.11.conv.2",
+      "features.12.conv.1.0",
+      "features.3.conv.1.0",
+      "features.14.conv.2",
+      "features.11.conv.1.0",
+      "features.7.conv.1.0",
+      "features.3.conv.0.0",
+      "features.14.conv.0.0",
+      "features.7.conv.0.0",
+      "features.5.conv.1.0",
+      "features.13.conv.1.0",
+      "features.5.conv.0.0",
+      "features.5.conv.2",
+      "features.6.conv.2"
+    ]
+  },
+  "n_conv": 52,
+  "n_block": 18,
+  "counts": [
+    {
+      "bits": 4,
+      "scheme": "per_channel",
+      "group_size": 0,
+      "layers": 28
+    },
+    {
+      "bits": 8,
+      "scheme": "per_channel",
+      "group_size": 0,
+      "layers": 24
+    }
+  ],
+  "w8_layers": [
+    "features.0.0",
+    "features.1.conv.0.0",
+    "features.1.conv.1",
+    "features.2.conv.1.0",
+    "features.3.conv.0.0",
+    "features.3.conv.1.0",
+    "features.3.conv.2",
+    "features.4.conv.1.0",
+    "features.4.conv.2",
+    "features.5.conv.0.0",
+    "features.5.conv.1.0",
+    "features.5.conv.2",
+    "features.6.conv.2",
+    "features.7.conv.0.0",
+    "features.7.conv.1.0",
+    "features.11.conv.1.0",
+    "features.11.conv.2",
+    "features.12.conv.0.0",
+    "features.12.conv.1.0",
+    "features.12.conv.2",
+    "features.13.conv.1.0",
+    "features.13.conv.2",
+    "features.14.conv.0.0",
+    "features.14.conv.2"
+  ],
+  "n_w8": 24,
+  "n_w4": 28,
+  "topology_selfcheck_maxdiff": 0.0,
+  "files": {
+    "weights": {
+      "name": "mobilenet_v2_w4pc_w8top24.ptq2.bin",
+      "bytes": 8881044,
+      "sha256": "bee64dfa5b5f90837b0232655086fe5b1412fbb346f629b250bf4cada7ce407c"
+    },
+    "calib": {
+      "name": "calib_mobilenet_v2_w4pc_w8top24.ptqc",
+      "bytes": 424,
+      "sha256": "9e079c49330e8e692fe33d0ce2b53a6dfe9e95ae5f07dad132bb4afc11f5dde7"
+    },
+    "quant_config": {
+      "name": "quant_config_mobilenet_v2_w4pc_w8top24.json",
+      "bytes": 524977,
+      "sha256": "0191aeb3133aedc18ef8f57020286f15061df242f18e5ddba31c6c90fe23f209"
+    },
+    "layer_plan": {
+      "name": "layer_plan_mobilenet_v2_w4pc_w8top24.json",
+      "bytes": 8353,
+      "sha256": "67ad93ff6e0a6825d8e11ed17811b2e39c8cfae58957ed5ec13f70db14a24179"
+    },
+    "build": {
+      "name": "build_mobilenet_v2_w4pc_w8top24.json",
+      "bytes": 3373,
+      "sha256": "4c81cc148f6513c85bc10f3dfec9afc1d97e68163833bc78ae6d868add35e2ae"
+    }
+  }
+}
